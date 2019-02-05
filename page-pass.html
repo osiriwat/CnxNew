@@ -1,0 +1,141 @@
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>CnxCenterpoint</title>
+    <script src="js/angular.min.js"></script>
+    <link rel="stylesheet" href="css/jquery.mobile-1.4.5.min.css">
+    <script src="js/jquery-1.11.3.min.js"></script>
+    <script src="js/jquery.mobile-1.4.5.min.js"></script>
+    <script src="config.js"></script>
+
+</head>
+
+<body>
+
+    <div data-role="page" ng-app="myApp" ng-controller="myCtrl">
+        <div data-role="header">
+            <a href="#" ng-click="back()" style="margin-top: 5px" class="ui-btn-left ui-btn ui-btn-inline ui-mini ui-corner-all ui-btn-icon-left ui-icon-carat-l">Back</a>
+            <p style="text-align:center;">แก้ไขรหัสผ่าน</p>
+            <a href="#" style="margin-top: 5px" class="ui-btn-right ui-btn ui-btn-inline ui-mini ui-corner-all ui-btn-icon-right ui-icon-check"
+                ng-click="changePassword()">บันทึก</a>
+        </div>
+
+        <div data-role="content">
+            <div class="ui-grid-a">
+
+
+                <form>
+                    <div class="ui-field-contain">
+                        <label for="text-12">รหัสผ่านเดิม:</label>
+                        <input type="password" name="text-12" id="text-12" value="" ng-model="oldPassword">
+                    </div>
+                    <div class="ui-field-contain">
+                        <label for="text-13">รหัสผ่านใหม่:</label>
+                        <input type="password" data-clear-btn="true" name="text-13" ng-model="newPassword" id="text-13"
+                            value="">
+                    </div>
+
+                    <div class="ui-field-contain">
+                        <div class="ui-field-contain">
+                            <label for="text-12">ยืนยันรหัสผ่าน:</label>
+                            <input type="password" name="text-12" id="text-12" value="" ng-model="confirmPassword">
+                        </div>
+                </form>
+
+            </div>
+
+
+
+
+        </div><!-- /navbar -->
+
+
+
+        <div data-role="footer" data-position="fixed">
+            <div data-role="navbar">
+                <ul>
+                    <li><a href="index.html" data-icon="home" data-ajax="false">หน้าแรก</a></li>
+                    <li><a href="https://thai.cnxcenterpoint.com/" data-icon="eye" data-ajax="false">ชมเว็บไชต์</a></li>
+                    <li><a href="page-help.html" data-icon="info" data-ajax="false">ช่วยเหลือ</a></li>
+                    <li><a href="#" data-icon="user" data-ajax="false" class="ui-btn-active">บัญชีของฉัน</a></li>
+                </ul>
+            </div>
+        </div><!-- /footer -->
+    </div><!-- /page popup -->
+    <script>
+        var app = angular.module('myApp', []);
+        app.controller('myCtrl', function ($scope, $http, $window) {
+            $(document).ready(function () {
+                var userId = $window.sessionStorage.getItem("userId");
+                var getUsers = $http({
+                    method: "GET",
+                    url: ip_address + 'Users/Details/' + userId,
+                    dataType: 'json',
+                    headers: {
+                        "Content-Type": "application/json"
+                    }
+                }).then(function successCallback(response) {
+                    if (response.data != "null") {
+                        $scope.user = response.data.users;
+                    }
+                }, function errorCallback(response) {
+                    alert("Error");
+                });
+            });
+            $scope.back = function () {
+                var isAdmin = $window.sessionStorage.getItem("isAdmin");
+                if (isAdmin)
+                    window.location.href = "page-editUserbyAdmin.html";
+                else
+                    window.location.href = "page-editUser.html";
+            }
+            $scope.changePassword = function () {
+                if (!$scope.oldPassword) {
+                    alert("กรุณากรอกข้อมูล รหัสผ่านเดิม");
+                    return;
+                } else if (!$scope.newPassword) {
+                    alert("กรุณากรอกข้อมูล รหัสใหม่");
+                    return;
+                } else if (!$scope.confirmPassword) {
+                    alert("กรุณากรอกข้อมูล ยืนยันรหัสผ่าน");
+                    return;
+                } else if ($scope.oldPassword != $scope.user.User_pass) {
+                    alert("รหัสผ่านเดิม ไม่ตรงกับรหัสผ่านที่มีอยู่แล้วในระบบ");
+                    return;
+                } else if ($scope.oldPassword == $scope.newPassword) {
+                    alert("รหัสผ่านใหม่ ซ้ำกับรหัสผ่านเดิมที่มีอยู่แล้ว");
+                    return;
+                } else if ($scope.confirmPassword != $scope.newPassword) {
+                    alert("รหัสผ่านใหม่ กับ รหัสผ่านที่ยืนยัน ไม่ตรงกัน");
+                    return;
+                }
+
+                $scope.user.User_pass = $scope.newPassword;
+                $.ajax({
+                    type: 'POST',
+                    url: ip_address + "Users/Edit",
+                    data: {
+                        user: $scope.user
+                    },
+                    cache: false,
+                    success: function (result) {
+                        if (result.exception) {
+                            alert(result.exception.Message);
+                        } else {
+                            alert("Save Success");
+                            //window.location.href = "page-User.html";
+                        }
+                    },
+                    error: function (XMLHttpRequest, textStatus, errorThrown) {
+                        alert("Error");
+                    }
+                });
+            }
+        });
+    </script>
+</body>
+
+</html>

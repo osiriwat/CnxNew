@@ -1,0 +1,113 @@
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>CnxCenterpoint</title>
+    <script src="js/angular.min.js"></script>
+    <link rel="stylesheet" href="css/jquery.mobile-1.4.5.min.css">
+    <script src="js/jquery-1.11.3.min.js"></script>
+    <script src="js/jquery.mobile-1.4.5.min.js"></script>
+    <script src="config.js"></script>
+    <style>
+        .center-screen {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div data-role="page" ng-app="myApp" ng-controller="myCtrl">
+        <div data-role="header">
+            <a href="#" ng-click="back()" style="margin-top: 5px" class="ui-btn-left ui-btn ui-btn-inline ui-mini ui-corner-all ui-btn-icon-left ui-icon-carat-l">Back</a>
+            <p style="text-align:center;">แก้ไขสินค้า</p>
+            <a href="#" style="margin-top: 5px" class="ui-btn-right ui-btn ui-btn-inline ui-mini ui-corner-all ui-btn-icon-right ui-icon-Search">Search</a>
+        </div>
+
+        <div data-role="content">
+            <div ng-repeat="p in products">
+                <a href="#" class="ui-btn ui-shadow" ng-click="edit(p.Id)">{{p.Product_name}}</a>
+            </div>
+        </div>
+
+        <div data-role="footer" data-position="fixed">
+            <div data-role="navbar">
+                <ul>
+                    <li><a href="index.html" data-icon="home" data-ajax="false">หน้าแรก</a></li>
+                    <li><a href="https://thai.cnxcenterpoint.com/" data-icon="eye" data-ajax="false">ชมเว็บไชต์</a></li>
+                    <li><a href="page-help.html" data-icon="info" data-ajax="false">ช่วยเหลือ</a></li>
+                    <li><a href="#" data-icon="user" data-ajax="false" class="ui-btn-active">บัญชีของฉัน</a></li>
+                </ul>
+            </div>
+        </div><!-- /footer -->
+    </div><!-- /page popup -->
+    <script>
+        var app = angular.module('myApp', []);
+        app.controller('myCtrl', function ($scope, $http, $window) {
+            $(document).ready(function () {
+                var isAdmin = $window.sessionStorage.getItem("isAdmin");
+                var userId = $window.sessionStorage.getItem("userId");
+
+                if (isAdmin) {
+                    var get = $http({
+                        method: "GET",
+                        url: ip_address + 'Products',
+                        dataType: 'json',
+                        headers: {
+                            "Content-Type": "application/json"
+                        }
+                    }).then(function successCallback(response) {
+                        if (response.data != "null") {
+                            $scope.products = response.data;
+                        }
+                    }, function errorCallback(response) {
+                        alert("Error");
+                    });
+                } else {
+                    var get = $http({
+                        method: "GET",
+                        url: ip_address + 'Products/GetProductByUserId?userId='+userId,
+                        dataType: 'json',
+                        headers: {
+                            "Content-Type": "application/json"
+                        }
+                    }).then(function successCallback(response) {
+                        if (response.data != "null") {
+                            $scope.products = response.data;
+                        }
+                    }, function errorCallback(response) {
+                        alert("Error");
+                    });
+                }
+            });
+            $scope.edit = function (id) {
+                var isAdmin = $window.sessionStorage.getItem("isAdmin");
+                if (isAdmin)
+                    window.location.href = "page-editProductByAdmin.html?id=" + id;
+                else
+                    window.location.href = "page-editProductByUser.html?id=" + id;
+            }
+            $scope.back = function () {
+                var isAdmin = $window.sessionStorage.getItem("isAdmin");
+                if (isAdmin)
+                    window.location.href = "page-UserAdmin.html";
+                else
+                    window.location.href = "page-User.html";
+            }
+            $scope.Logout = function () {
+                var userId = $window.sessionStorage.getItem("userId");
+                if (userId != null)
+                    $window.sessionStorage.removeItem("userId");
+                window.location.href = "index.html";
+            }
+        });
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,331 @@
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>CnxCenterpoint</title>
+    <script src="js/angular.min.js"></script>
+    <link rel="stylesheet" href="css/jquery.mobile-1.4.5.min.css">
+    <script src="js/jquery-1.11.3.min.js"></script>
+    <script src="js/jquery.mobile-1.4.5.min.js"></script>
+    <script src="config.js"></script>
+
+</head>
+
+<body>
+
+    <div data-role="page" ng-app="myApp" ng-controller="myCtrl">
+        <div data-role="header">
+            <a href="#" ng-click="back()" style="margin-top: 5px" class="ui-btn-left ui-btn ui-btn-inline ui-mini ui-corner-all ui-btn-icon-left ui-icon-carat-l">Back</a>
+            <p style="text-align:center;">แก้ไขบัญชีผู้ใช้งาน</p>
+            <a href="#" ng-click="Save()" style="margin-top: 5px" class="ui-btn-right ui-btn ui-btn-inline ui-mini ui-corner-all ui-btn-icon-right ui-icon-check">บันทึก</a>
+        </div>
+
+        <div data-role="content">
+            <div class="ui-grid-a">
+
+                <div wight=100%>
+                    <div class="ui-block-a-30%" style="text-align:center;"><a class="ui-corner-all"><img src="img/1.jpg"
+                                width="100px" height="100px"></a>
+                        <br>
+                        <div text="text-align:center;"><a href="#">แก้ไขรูปภาพ</a></div>
+                    </div>
+
+                    <form>
+                        <div class="ui-field-contain">
+                            <label for="text-12">ชื่อ-สกุล:</label>
+                            <input type="text" name="text-12" id="text-12" ng-model="user.User_name" value="">
+                        </div>
+                        <div class="ui-field-contain">
+                            <label for="text-13">ชื่อร้าน:</label>
+                            <input type="text" data-clear-btn="true" name="text-13" ng-model="user.contact.Contact_name"
+                                id="text-13" value="">
+                        </div>
+
+                        <div class="ui-field-contain">
+                            <div class="ui-field-contain">
+                                <label for="text-12">ที่อยู่ เลขที่:</label>
+                                <input type="text" ng-model="user.contact.Address" name="text-12" id="text-12" value="">
+                            </div>
+
+                            <ui>
+                                <div class="ui-field-contain">
+                                    <label for="text-13">จังหวัด:</label>
+                                    <select id="province">
+                                    </select>
+                                </div>
+                                <ui>
+                                    <div class="ui-field-contain">
+                                        <label for="text-13">อำเภอ:</label>
+                                        <select id="amphur">
+                                        </select>
+                                    </div>
+                                    <div class="ui-field-contain">
+                                        <label for="text-13">ตำบล:</label>
+                                        <select id="district">
+                                        </select>
+                                    </div>
+
+                                    <ui>
+                                        <div class="ui-field-contain">
+                                            <label for="text-12">เบอร์โทรศัพท์:</label>
+                                            <input type="text" name="text-12" ng-model="user.contact.phoneNum" id="text-12"
+                                                value="">
+                                        </div>
+                                        <div class="ui-field-contain">
+                                            <label for="text-12">Lind ID:</label>
+                                            <input type="text" name="text-12" ng-model="user.contact.line_id" id="text-12"
+                                                value="">
+                                        </div>
+                                        <div class="ui-field-contain">
+                                            <label for="text-12">Website:</label>
+                                            <input type="text" name="text-12" ng-model="user.contact.web" id="text-12"
+                                                value="">
+                                        </div>
+                                        <div class="ui-field-contain">
+                                            <label for="text-12">E-mail:</label>
+                                            <input type="text" name="text-12" ng-model="user.contact.email" id="text-12"
+                                                value="">
+                                        </div>
+
+                                        <div class="ui-grid-solo">
+                                            <div class="ui-block-a">
+                                                <input type="button" value="เปลี่ยนรหัสผ่าน" onclick=" window.location.href='page-pass.html';"></div>
+                                        </div>
+
+
+                        </div>
+                    </form>
+
+                </div>
+
+
+
+
+            </div><!-- /navbar -->
+
+
+
+            <div data-role="footer" data-position="fixed">
+                <div data-role="navbar">
+                    <ul>
+                        <li><a href="index.html" data-icon="home" data-ajax="false">หน้าแรก</a></li>
+                        <li><a href="https://thai.cnxcenterpoint.com/" data-icon="eye" data-ajax="false">ชมเว็บไชต์</a></li>
+                        <li><a href="page-help.html" data-icon="info" data-ajax="false">ช่วยเหลือ</a></li>
+                        <li><a href="#" data-icon="user" data-ajax="false" class="ui-btn-active">บัญชีของฉัน</a></li>
+                    </ul>
+                </div>
+            </div><!-- /footer -->
+        </div><!-- /page popup -->
+        <script>
+            var app = angular.module('myApp', []);
+            app.controller('myCtrl', function ($scope, $http, $window) {
+                $(document).ready(function () {
+                    $("#province").change(function () {
+                        var provinceId = $("#province").val();
+                        $('#amphur')
+                            .find('option')
+                            .remove()
+                            .end()
+                            .append('')
+                            .val('whatever');
+                        $('#district')
+                            .find('option')
+                            .remove()
+                            .end()
+                            .append('')
+                            .val('whatever');
+
+                        $("#amphur").selectmenu("refresh");
+                        $("#district").selectmenu("refresh");
+
+                        $http.get(ip_address + 'Users/GetByProvinceId/' + provinceId).then(
+                            function (
+                                response) {
+                                $scope.amphurs = response.data.results;
+                                var optionsAmphur = '';
+                                for (var i = 0; i < $scope.amphurs.length; ++i) {
+                                    optionsAmphur += '<option value="' + $scope.amphurs[i].Id +
+                                        '">' +
+                                        $scope.amphurs[i].AMPHUR_NAME + '</option>';
+                                }
+                                $('#amphur').append(optionsAmphur);
+                            });
+                    });
+
+                    $("#amphur").change(function () {
+                        var provinceId = $("#province").val();
+                        var amphurId = $("#amphur").val();
+
+                        $('#district')
+                            .find('option')
+                            .remove()
+                            .end()
+                            .append('')
+                            .val('whatever');
+                        $("#district").selectmenu("refresh");
+
+                        $http.get(ip_address + 'Users/GetDistrictByCondition?provinceId=' +
+                            provinceId +
+                            '&amphurId=' + amphurId).then(function (
+                            response) {
+                            $scope.districts = response
+                                .data.results;
+                            var optionsDistrict = '';
+                            for (var i = 0; i < $scope.districts
+                                .length; ++i) {
+                                optionsDistrict +=
+                                    '<option value="' +
+                                    $scope.districts[i]
+                                    .Id + '">' + $scope
+                                    .districts[i].DISTRICT_NAME +
+                                    '</option>';
+                            }
+                            $('#district').append(
+                                optionsDistrict);
+                        });
+                    });
+
+                    var userId = $window.sessionStorage.getItem("userId");
+
+                    var getUsers = $http({
+                        method: "GET",
+                        url: ip_address + 'Users/Details/' + userId,
+                        dataType: 'json',
+                        headers: {
+                            "Content-Type": "application/json"
+                        }
+                    }).then(function successCallback(response) {
+                        if (response.data != "null") {
+                            $scope.user = response.data.users;
+
+                            var getProvinces = $http({
+                                method: "GET",
+                                url: ip_address + 'Users/GetAllProvince',
+                                dataType: 'json',
+                                headers: {
+                                    "Content-Type": "application/json"
+                                }
+                            }).then(function successCallback(response) {
+                                if (response.data != "null") {
+                                    $scope.provinces = response.data.results;
+                                    var options = '';
+                                    for (var i = 0; i < $scope.provinces.length; ++i) {
+                                        options += '<option value="' + $scope.provinces[
+                                                i].Id + '">' + $scope.provinces[i].PROVINCE_NAME +
+                                            '</option>';
+                                    }
+                                    $('#province').append(options);
+
+                                    var province = $("select#province");
+                                    province.val($scope.user.contact.PROVINCE_ID);
+                                    province.selectmenu("refresh");
+
+                                    $http.get(ip_address + 'Users/GetByProvinceId/' +
+                                        $scope.user.contact.PROVINCE_ID).then(
+                                        function (response) {
+                                            $scope.amphurs = response.data.results;
+                                            var optionsAmphur = '';
+                                            for (var i = 0; i < $scope.amphurs.length; ++
+                                                i) {
+                                                optionsAmphur += '<option value="' +
+                                                    $scope.amphurs[i].Id + '">' +
+                                                    $scope.amphurs[i].AMPHUR_NAME +
+                                                    '</option>';
+                                            }
+                                            $('#amphur').append(optionsAmphur);
+                                            var amphur = $("select#amphur");
+                                            amphur.val($scope.user.contact.AMPHUR_ID);
+                                            amphur.selectmenu("refresh");
+
+                                            $http.get(ip_address +
+                                                'Users/GetDistrictByCondition?provinceId=' +
+                                                $scope.user.contact.PROVINCE_ID +
+                                                '&amphurId=' + $scope.user.contact
+                                                .AMPHUR_ID).then(function (
+                                                response) {
+                                                $scope.districts = response
+                                                    .data.results;
+                                                var optionsDistrict = '';
+                                                for (var i = 0; i < $scope.districts
+                                                    .length; ++i) {
+                                                    optionsDistrict +=
+                                                        '<option value="' +
+                                                        $scope.districts[i]
+                                                        .Id + '">' + $scope
+                                                        .districts[i].DISTRICT_NAME +
+                                                        '</option>';
+                                                }
+                                                $('#district').append(
+                                                    optionsDistrict);
+                                                var district = $(
+                                                    "select#district");
+                                                district.val($scope.user.contact
+                                                    .DISTRICT_ID);
+                                                district.selectmenu(
+                                                    "refresh");
+                                            });
+                                        });
+                                }
+                            }, function errorCallback(response) {
+                                alert("Error");
+                            });
+                        }
+                    }, function errorCallback(response) {
+                        alert("Error");
+                    });
+                });
+                $scope.back = function () {
+                    window.location.href = "page-UserAdmin.html";
+                }
+                $scope.changeProvince = function () {
+                    $http.get(ip_address + 'Users/GetByProvinceId/' + $scope.province.Id).then(function (
+                        response) {
+                        $scope.amphurs = response.data.results;
+                        var optionsAmphur = '';
+                        for (var i = 0; i < $scope.amphurs.length; ++i) {
+                            optionsAmphur += '<option value="' + $scope.amphurs[i].Id + '">' +
+                                $scope.amphurs[i].AMPHUR_NAME + '</option>';
+                        }
+                        $('#amphur').append(optionsAmphur);
+                    });
+                }
+                $scope.changeAmphur = function () {
+                    $http.get(ip_address + 'Users/GetDistrictByCondition?provinceId=' + $scope.province.Id +
+                        '&amphurId=' + $scope.amphur.Id).then(function (
+                        response) {
+                        $scope.districts = response.data.results;
+                    });
+                }
+                $scope.Save = function () {
+                    $scope.user.Id = $window.sessionStorage.getItem("userId");
+                    $scope.user.contact.PROVINCE_ID = $("#province").val();
+                    $scope.user.contact.AMPHUR_ID = $("#amphur").val();
+                    $scope.user.contact.DISTRICT_ID = $("#district").val();
+
+                    $.ajax({
+                        type: 'POST',
+                        url: ip_address + "Users/Edit",
+                        data: {
+                            user: $scope.user
+                        },
+                        cache: false,
+                        success: function (result) {
+                            if (result.exception) {
+                                alert(result.exception.Message);
+                            } else {
+                                alert("Save Success");
+                                window.location.href = "page-UserAdmin.html";
+                            }
+                        },
+                        error: function (XMLHttpRequest, textStatus, errorThrown) {
+                            alert("Error");
+                        }
+                    });
+                }
+            });
+        </script>
+</body>
+
+</html>

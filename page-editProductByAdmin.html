@@ -1,0 +1,295 @@
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>CnxCenterpoint</title>
+    <script src="js/angular.min.js"></script>
+    <link rel="stylesheet" href="css/jquery.mobile-1.4.5.min.css">
+    <script src="js/jquery-1.11.3.min.js"></script>
+    <script src="js/jquery.mobile-1.4.5.min.js"></script>
+    <script src="config.js"></script>
+
+</head>
+
+<body>
+
+    <div data-role="page" ng-app="myApp" ng-controller="myCtrl">
+        <div data-role="header">
+            <a ng-click="back()" style="margin-top: 5px" class="ui-btn-left ui-btn ui-btn-inline ui-mini ui-corner-all ui-btn-icon-left ui-icon-carat-l">Back</a>
+            <p style="text-align:center;">เพิ่มสินค้า</p>
+            <a href="#" ng-click="Save()" style="margin-top: 5px" class="ui-btn-right ui-btn ui-btn-inline ui-mini ui-corner-all ui-btn-icon-right ui-icon-check">บันทึก</a>
+        </div>
+
+        <div data-role="content">
+            <div class="ui-grid-a">
+
+                <div wight=100%>
+                    <div class="ui-block-a-30%" style="text-align:left;"><a class="ui-corner-all">
+                            <!-- /กดเพื่อเข้าไปเพิ่มรูปสินค้าจากอัลบั้มรูป (ต้องขออนุญาตการเข้าถึงจากตัวอุปกรณ์)-->
+                            <a href="#"><img src=" " width="100px" height="100px" border="3" border-color="#000000"></a><br>
+
+
+                            <br>
+                            <div text="text-align:center;"><a href="#">เพิ่มรูปภาพ</a></div>
+                    </div>
+
+                    <form>
+                        <div class="ui-field-contain">
+                            <label for="text-12">ชื่อสินค้า:</label>
+                            <input type="text" name="text-12" ng-model="product.Product_name" id="text-12" value="">
+                        </div>
+                        <ui>
+                            <div class="ui-field-contain">
+                                <label for="text-13">คำอธิบาย:</label>
+                                <input type="text" data-clear-btn="true" ng-model="product.Product_explanation" name="text-13"
+                                    id="text-13" value="">
+                            </div>
+                            <div class="ui-field-contain">
+                                <div class="ui-field-contain">
+                                    <label for="text-12">ขนาด:</label>
+                                    <input type="number" name="text-12" ng-model="product.Product_size" id="text-12"
+                                        value="">
+                                </div>
+
+                                <div class="ui-field-contain">
+                                    <label for="text-12">น้ำหนัก:</label>
+                                    <input type="number" name="text-12" ng-model="product.Product_weight" id="text-12"
+                                        value="">
+                                </div>
+
+                                <div class="ui-field-contain">
+                                    <label for="text-12">อื่นๆ:</label>
+                                    <input type="text" name="text-12" ng-model="product.Product_other" id="text-12"
+                                        value="">
+                                </div>
+
+                                <div class="ui-field-contain">
+                                    <label for="text-12">ราคา:</label>
+                                    <input type="number" name="text-12" ng-model="product.Product_price" id="text-12"
+                                        value="">
+                                </div>
+
+                                <ui>
+                                    <div class="ui-field-contain">
+
+                                        <label for="text-13">หมวดสินค้า:</label>
+                                        <select id="productgroup">
+                                        </select>
+                                    </div>
+                                    <ui>
+                                        <div class="ui-field-contain">
+                                            <label for="text-13">ประเภทสินค้า:</label>
+                                            <select id="producttype">
+                                            </select>
+                                        </div>
+                                        <div class="ui-field-contain">
+                                            <label for="text-13">หน่วยนับ:</label>
+                                            <select id="productunit">
+                                            </select>
+                                        </div>
+                                        <div class="ui-field-contain">
+                                            <label for="text-12">Keywords:</label>
+                                            <input type="text" name="text-12" ng-model="product.Keyword" id="text-12"
+                                                value="">
+                                        </div>
+                                        <div class="ui-field-contain">
+                                            <label for="text-12">Title:</label>
+                                            <input type="text" name="text-12" ng-model="product.Title" id="text-12"
+                                                value="">
+                                        </div>
+
+                                        <div class="ui-field-contain">
+                                            <label for="text-12">Description:</label>
+                                            <input type="text" name="text-12" ng-model="product.Description" id="text-12"
+                                                value="">
+                                        </div>
+
+
+                                        <div class="ui-field-contain">
+                                            <label for="text-12">Website:</label>
+                                            <input type="text" name="text-12" ng-model="product.Website" id="text-12"
+                                                value="">
+                                        </div>
+
+
+                            </div>
+                    </form>
+
+                </div>
+
+
+
+
+            </div><!-- /navbar -->
+
+
+
+            <div data-role="footer" data-position="fixed">
+                <div data-role="navbar">
+                    <ul>
+                        <li><a href="index.html" data-icon="home" data-ajax="false">หน้าแรก</a></li>
+                        <li><a href="https://thai.cnxcenterpoint.com/" data-icon="eye" data-ajax="false">ชมเว็บไชต์</a></li>
+                        <li><a href="page-help.html" data-icon="info" data-ajax="false">ช่วยเหลือ</a></li>
+                        <li><a href="#" data-icon="user" data-ajax="false" class="ui-btn-active">บัญชีของฉัน</a></li>
+                    </ul>
+                </div>
+            </div><!-- /footer -->
+        </div><!-- /page popup -->
+        <script>
+            var app = angular.module('myApp', []);
+            app.controller('myCtrl', function ($scope, $http, $window) {
+
+                $(document).ready(function () {
+
+                    var url = new URL(window.location.href);
+                    var id = url.searchParams.get("id");
+
+
+                    var get = $http({
+                        method: "GET",
+                        url: ip_address + 'Products/Details/' + id,
+                        dataType: 'json',
+                        headers: {
+                            "Content-Type": "application/json"
+                        }
+                    }).then(function successCallback(response) {
+                        if (response.data != "null") {
+                            $scope.product = response.data;
+
+                            var getProductGroups = $http({
+                                method: "GET",
+                                url: ip_address + 'Products/GetAllGroup',
+                                dataType: 'json',
+                                headers: {
+                                    "Content-Type": "application/json"
+                                }
+                            }).then(function successCallback(response) {
+                                if (response.data != "null") {
+                                    $scope.productgroups = response.data.results;
+                                    var options = '';
+                                    for (var i = 0; i < $scope.productgroups.length; ++
+                                        i) {
+                                        options += '<option value="' + $scope.productgroups[
+                                                i].Id +
+                                            '">' + $scope.productgroups[i].Product_group +
+                                            '</option>';
+                                    }
+                                    $('#productgroup').append(options);
+
+                                    var productgroup = $("select#productgroup");
+                                    productgroup.val($scope.product.Product_group_id);
+                                    productgroup.selectmenu("refresh");
+                                }
+                            }, function errorCallback(response) {
+                                alert("Error");
+                            });
+                            var getProductType = $http({
+                                method: "GET",
+                                url: ip_address + 'Products/GetAllType',
+                                dataType: 'json',
+                                headers: {
+                                    "Content-Type": "application/json"
+                                }
+                            }).then(function successCallback(response) {
+                                if (response.data != "null") {
+                                    $scope.producttypes = response.data.results;
+                                    var options = '';
+                                    for (var i = 0; i < $scope.producttypes.length; ++i) {
+                                        options += '<option value="' + $scope.producttypes[
+                                                i].Id +
+                                            '">' + $scope.producttypes[i].Product_type +
+                                            '</option>';
+                                    }
+                                    $('#producttype').append(options);
+
+                                    var producttype = $("select#producttype");
+                                    producttype.val($scope.product.Product_type_id);
+                                    producttype.selectmenu("refresh");
+                                }
+                            }, function errorCallback(response) {
+                                alert("Error");
+                            });
+
+
+                            var getProductUnit = $http({
+                                method: "GET",
+                                url: ip_address + 'Products/GetAllUnit',
+                                dataType: 'json',
+                                headers: {
+                                    "Content-Type": "application/json"
+                                }
+                            }).then(function successCallback(response) {
+                                if (response.data != "null") {
+                                    $scope.productunits = response.data.results;
+                                    var options = '';
+                                    for (var i = 0; i < $scope.productunits.length; ++i) {
+                                        options += '<option value="' + $scope.productunits[
+                                                i].Id +
+                                            '">' + $scope.productunits[i].Product_unit +
+                                            '</option>';
+                                    }
+                                    $('#productunit').append(options);
+                                    var productunit = $("select#productunit");
+                                    productunit.val($scope.product.Product_unit_id);
+                                    productunit.selectmenu("refresh");
+                                }
+                            }, function errorCallback(response) {
+                                alert("Error");
+                            });
+
+
+                        }
+                    }, function errorCallback(response) {
+                        alert("Error");
+                    });
+                });
+                $scope.back = function () {
+                    window.location.href = "page-editProduct.html";
+                }
+                $scope.Save = function () {
+
+                    if (!$scope.product.Product_name) {
+                        alert("กรุณากรอกข้อมูล ชื่อสินค้า");
+                        return;
+                    }
+                    $scope.product.User_Id = $window.sessionStorage.getItem("userId");
+
+                    $scope.product.Product_group_id = $("#productgroup").val();
+                    $scope.product.Product_type_id = $("#producttype").val();
+                    $scope.product.Product_unit_id = $("#productunit").val();
+
+                    $.ajax({
+                        type: 'POST',
+                        url: ip_address + "Products/Edit",
+                        data: {
+                            tbproduct: $scope.product
+                        },
+                        cache: false,
+                        success: function (result) {
+                            if (result.exception) {
+                                alert(result.exception.Message);
+                                //window.location.href = "page-User.html";
+                            } else {
+                                alert("Save Success");
+                                window.location.href = "page-UserAdmin.html";
+                            }
+                        },
+                        error: function (XMLHttpRequest, textStatus, errorThrown) {
+                            alert("Error");
+                            //window.location.href = "page-User.html";
+                        }
+                    });
+                }
+
+                function checkNull(value) {
+                    if (!value) {
+                        return " ";
+                    }
+                }
+            });
+        </script>
+</body>
+
+</html>

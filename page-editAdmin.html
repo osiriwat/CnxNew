@@ -1,0 +1,79 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>CnxCenterpoint</title>
+    <link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css" />
+    <script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
+    <script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
+
+</head>
+<body>
+    
+    <div data-role="page">
+            <div data-role="header">
+                <a href="page-User.html" style="margin-top: 5px" class="ui-btn-left ui-btn ui-btn-inline ui-mini ui-corner-all ui-btn-icon-left ui-icon-carat-l">Back</a>
+                <p style="text-align:center;">สถานะ: Admin</p>
+                <a href="#" style="margin-top: 5px" class="ui-btn-right ui-btn ui-btn-inline ui-mini ui-corner-all ui-btn-icon-right ui-icon-check">บันทึก</a>
+            </div>
+
+            <div data-role="content">
+                    <div class="ui-grid-a">
+                        
+                            <div wight=100%>
+                                <div class="ui-block-a-30%" style="text-align:center;"><a class="ui-corner-all"><img src="img/1.jpg" width="100px" height="100px"></a>
+                                    <br><div text="text-align:center;"><a href="#">แก้ไขรูปภาพ</a></div>
+                                </div>
+                                
+                                <form>
+                                    <div class="ui-field-contain">
+                                        <label for="text-12">ชื่อ-สกุล:</label>
+                                        <input type="text" name="text-12" id="text-12" value="">
+                                    </div>
+                                    <div class="ui-field-contain">
+                                        <label for="text-13">ชื่อผู้ใช้:</label>
+                                        <input type="text" data-clear-btn="true" name="text-13" id="text-13" value="">
+                                    </div>
+                                    <div class="ui-field-contain">
+                                            
+                                            
+                                            <ui><div class="ui-field-contain">
+                                                <label for="text-13">สถานะ:</label>
+                                                <select name="select-native-fc" id="select-native-fc">
+                                                    <option value="small">Admin</option>
+                                                    <option value="medium"></option>
+                                                   
+                                                </select>
+                                            </div>
+                         
+                                            <div class="ui-grid-solo"><div class="ui-block-a">
+                                                <input type="button" value="เปลี่ยนรหัสผ่าน"></div></div>
+    
+
+                                        </div>
+                                    </form>
+                            
+                            </div>   
+                                
+
+                           
+              
+            </div><!-- /navbar -->
+
+
+
+        <div data-role="footer" data-position="fixed">
+            <div data-role="navbar">
+                <ul>
+                    <li><a href="index.html" data-icon="home" data-ajax="false">หน้าแรก</a></li>
+                    <li><a href="https://thai.cnxcenterpoint.com/" data-icon="eye" data-ajax="false">ชมเว็บไชต์</a></li>
+                    <li><a href="page-help.html" data-icon="info" data-ajax="false">ช่วยเหลือ</a></li>
+                    <li><a href="#" data-icon="user" data-ajax="false" class="ui-btn-active">บัญชีของฉัน</a></li>
+                </ul>
+            </div>
+        </div><!-- /footer -->
+    </div><!-- /page popup -->
+
+</body>
+</html>
