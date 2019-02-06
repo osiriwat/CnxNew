@@ -88,7 +88,7 @@
                     if (response.data.users) {
                         $window.sessionStorage.setItem("userId", response.data.users.Id);
                         $window.sessionStorage.setItem("isAdmin", true);
-                        window.location.href = "page-UserAdmin.html";
+                        window.location.href = "page-Admin.html";
                     } else
                         alert("User name or Password incorrect");
                 }, function errorCallback(response) {

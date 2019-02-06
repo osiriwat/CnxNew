@@ -277,7 +277,11 @@
                     });
                 });
                 $scope.back = function () {
-                    window.location.href = "page-User.html";
+                    var isAdmin=$window.sessionStorage.getItem("isAdmin");
+                    if(isAdmin)
+                        window.location.href = "page-Admin.html";
+                    else
+                        window.location.href = "page-User.html";
                 }
                 $scope.changeProvince = function () {
                     $http.get(ip_address + 'Users/GetByProvinceId/' + $scope.province.Id).then(function (

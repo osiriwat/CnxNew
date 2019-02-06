@@ -1,26 +1,26 @@
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>CnxCenterpoint</title>
-    <link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css" />
-    <script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
-    <script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
+    <script src="js/angular.min.js"></script>
+    <link rel="stylesheet" href="css/jquery.mobile-1.4.5.min.css">
+    <script src="js/jquery-1.11.3.min.js"></script>
+    <script src="js/jquery.mobile-1.4.5.min.js"></script>
+    <script src="config.js"></script>
 
 </head>
+
 <body>
-    
-    <div data-role="page">
-            <div data-role="header">
-                <a href="index.html" style="margin-top: 5px" class="ui-btn-left ui-btn ui-btn-inline ui-mini ui-corner-all ui-btn-icon-left ui-icon-carat-l">Back</a>
-                <p style="text-align:center;">อนุมัติสินค้า</p>
-                <a href="index.html" style="margin-top: 5px" class="ui-btn-right ui-btn ui-btn-inline ui-mini ui-corner-all ui-btn-icon-right ui-icon-search">Search</a>
-            </div>
 
-
-
-            
+    <div data-role="page" ng-app="myApp" ng-controller="myCtrl">
+        <div data-role="header">
+            <a href="index.html" style="margin-top: 5px" ng-click="back()" class="ui-btn-left ui-btn ui-btn-inline ui-mini ui-corner-all ui-btn-icon-left ui-icon-carat-l">Back</a>
+            <p style="text-align:center;">อนุมัติสินค้า</p>
+            <a href="index.html" style="margin-top: 5px" class="ui-btn-right ui-btn ui-btn-inline ui-mini ui-corner-all ui-btn-icon-right ui-icon-search">Search</a>
+        </div>
         <div data-role="footer" data-position="fixed">
             <div data-role="navbar">
                 <ul>
@@ -32,6 +32,14 @@
             </div>
         </div><!-- /footer -->
     </div><!-- /page popup -->
-
+    <script>
+        var app = angular.module('myApp', []);
+        app.controller('myCtrl', function ($scope, $http, $window) {
+            $scope.back = function () {
+                window.location.href = "page-Admin.html";
+            }
+        });
+    </script>
 </body>
+
 </html>
