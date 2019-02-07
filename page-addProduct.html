@@ -57,7 +57,7 @@
             smallImage.style.display = 'block';
             smallImage.src = imageURI;
 
-            var imgFileName=document.getElementById('productImage').value+"_"+imageURI.substr(imageURI.lastIndexOf('/') + 1);
+            var imgFileName=document.getElementById('productImage').value+".jpg";
             var options = new FileUploadOptions();
             options.fileKey = "file";
             options.fileName = imgFileName;

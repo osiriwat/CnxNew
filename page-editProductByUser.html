@@ -25,11 +25,8 @@
             <div class="ui-grid-a">
 
                 <div wight=100%>
-                    <div class="ui-block-a-30%" style="text-align:left;"><a class="ui-corner-all"><img src="img/1.jpg"
-                                width="100px" height="100px"></a>
-                        <a><img src="img/1.jpg" width="100px" height="100px"></a>
-                        <a><img src="img/1.jpg" width="100px" height="100px"></a>
-
+                    <div class="ui-block-a-30%" style="text-align:left;">
+                        <a class="ui-corner-all"><img id="productImg" src="img/1.jpg" width="100px" height="100px"></a>
                         <br>
                         <div text="text-align:center;"><a href="#">เพิ่มรูปภาพ</a></div>
                     </div>
@@ -38,7 +35,7 @@
                         <input type="hidden" ng-model="product.Id">
                         <div class="ui-field-contain">
                             <label for="text-12">ชื่อสินค้า:</label>
-                            <input type="text" name="text-12" ng-model="product.Product_name" id="text-12" value="" >
+                            <input type="text" name="text-12" ng-model="product.Product_name" id="text-12" value="">
                         </div>
                         <div class="ui-field-contain">
                             <label for="text-13">คำอธิบาย:</label>
@@ -53,7 +50,8 @@
 
                             <div class="ui-field-contain">
                                 <label for="text-12">น้ำหนัก:</label>
-                                <input type="number" name="text-12" ng-model="product.Product_weight" id="text-12" value="">
+                                <input type="number" name="text-12" ng-model="product.Product_weight" id="text-12"
+                                    value="">
                             </div>
 
                             <div class="ui-field-contain">
@@ -138,6 +136,7 @@
                     var url = new URL(window.location.href);
                     var id = url.searchParams.get("id");
 
+                 
 
                     var get = $http({
                         method: "GET",
@@ -149,6 +148,7 @@
                     }).then(function successCallback(response) {
                         if (response.data != "null") {
                             $scope.product = response.data;
+                            $('#productImg').attr('src', ip_address+'UploadedFiles/'+$scope.product.Image);
 
                             var getProductGroups = $http({
                                 method: "GET",
@@ -242,8 +242,7 @@
                 }
                 $scope.Save = function () {
 
-                    if($scope.product.Product_name=='')
-                    {
+                    if ($scope.product.Product_name == '') {
                         alert("กรุณากรอกข้อมูล ชื่อสินค้า");
                         return;
                     }
