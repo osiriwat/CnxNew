@@ -25,6 +25,7 @@
             pictureSource = navigator.camera.PictureSourceType;
             destinationType = navigator.camera.DestinationType;
         }
+
         function capturePhoto() {
             // Take picture using device camera and retrieve image as base64-encoded string
             navigator.camera.getPicture(uploadPhoto, onFail, {
@@ -50,15 +51,19 @@
                 sourceType: source
             });
         }
+
         function uploadPhoto(imageURI) {
             var smallImage = document.getElementById('smallImage');
             smallImage.style.display = 'block';
             smallImage.src = imageURI;
 
+            var imgFileName=document.getElementById('productImage').value+"_"+imageURI.substr(imageURI.lastIndexOf('/') + 1);
             var options = new FileUploadOptions();
             options.fileKey = "file";
-            options.fileName = imageURI.substr(imageURI.lastIndexOf('/') + 1)+"_OOP1234";
+            options.fileName = imgFileName;
             options.mimeType = "image/jpeg";
+
+            document.getElementById('productImage').value=imgFileName;
 
             var params = new Object();
             params.value1 = "test";
@@ -68,7 +73,7 @@
             options.chunkedMode = false;
 
             var ft = new FileTransfer();
-            ft.upload(imageURI, ip_address+"Products/UploadFile",
+            ft.upload(imageURI, ip_address + "Products/UploadFile",
                 function (result) {
                     console.log(JSON.stringify(result));
                 },
@@ -80,6 +85,10 @@
         function onFail(message) {
             alert('Failed because: ' + message);
         }
+        $(document).ready(function () {
+            document.getElementById('productImage').value= Math.random();;
+        });
+        
     </script>
 </head>
 
@@ -98,13 +107,17 @@
                 <div wight=100%>
                     <div class="ui-block-a-30%" style="text-align:left;"><a class="ui-corner-all"></a>
                         <!-- /กดเพื่อเข้าไปเพิ่มรูปสินค้าจากอัลบั้มรูป (ต้องขออนุญาตการเข้าถึงจากตัวอุปกรณ์)-->
-                        <a href="#" ><img src=" " width="140px"  height="150px" border="3" id="smallImage" border-color="#000000"></a><br>
-                        <input type="button" onclick="capturePhoto();"  data-inline="true" data-icon="camera" data-iconpos="notext" value="Icon only">
-                        <input type="button" onclick="capturePhotoEdit();"  data-inline="true" data-icon="edit" data-iconpos="notext" value="Icon only">
-                        <input type="button" onclick="getPhoto(pictureSource.PHOTOLIBRARY);" data-inline="true" data-icon="grid" data-iconpos="notext" value="Icon only">
+                        <a href="#"><img src=" " width="140px" height="150px" border="3" id="smallImage" border-color="#000000"></a><br>
+                        <input type="button" onclick="capturePhoto();" data-inline="true" data-icon="camera"
+                            data-iconpos="notext" value="Icon only">
+                        <input type="button" onclick="capturePhotoEdit();" data-inline="true" data-icon="edit"
+                            data-iconpos="notext" value="Icon only">
+                        <input type="button" onclick="getPhoto(pictureSource.PHOTOLIBRARY);" data-inline="true"
+                            data-icon="grid" data-iconpos="notext" value="Icon only">
                     </div>
 
                     <form>
+                        <input type="hidden" name="text-12" ng-model="product.Image" id="productImage" value="">
                         <div class="ui-field-contain">
                             <label for="text-12">ชื่อสินค้า:</label>
                             <input type="text" name="text-12" ng-model="product.Product_name" id="text-12" value="">
