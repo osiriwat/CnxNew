@@ -239,8 +239,7 @@
                                 document.getElementById('productImage').value = $scope.product.Image;
                             }
                            
-                            $('#productImg').attr('src', ip_address + 'UploadedFiles/' + $scope
-                                .product.Image);
+                            $('#smallImage').attr('src', ip_address + 'UploadedFiles/' + $scope.product.Image);
 
                             var getProductGroups = $http({
                                 method: "GET",
