@@ -230,7 +230,15 @@
                     }).then(function successCallback(response) {
                         if (response.data != "null") {
                             $scope.product = response.data;
-                            document.getElementById('productImage').value = $scope.product.Image;
+                            if($scope.product.Image)
+                            {
+                                document.getElementById('productImage').value = $scope.product.Image;
+                            }
+                            else
+                            {
+                                document.getElementById('productImage').value =$scope.product.Id;
+                            }
+                           
                             $('#productImg').attr('src', ip_address + 'UploadedFiles/' + $scope
                                 .product.Image);
 
