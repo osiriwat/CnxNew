@@ -7,6 +7,7 @@
     <title>CnxCenterpoint</title>
     <script src="js/angular.min.js"></script>
     <link rel="stylesheet" href="css/jquery.mobile-1.4.5.min.css">
+    <link rel="stylesheet" href="css/listview-grid.css">
     <script src="js/jquery-1.11.3.min.js"></script>
     <script src="js/jquery.mobile-1.4.5.min.js"></script>
     <script src="config.js"></script>
@@ -23,19 +24,16 @@
 
 <body>
 
-    <div data-role="page" ng-app="myApp" ng-controller="myCtrl">
+    <div data-role="page"  id="demo-page" class="my-page" ng-app="myApp" ng-controller="myCtrl">
         <div data-role="header">
             <a href="#" ng-click="back()" style="margin-top: 5px" class="ui-btn-left ui-btn ui-btn-inline ui-mini ui-corner-all ui-btn-icon-left ui-icon-carat-l">Back</a>
             <p style="text-align:center;">แก้ไขสินค้า</p>
             <a href="#" style="margin-top: 5px" class="ui-btn-right ui-btn ui-btn-inline ui-mini ui-corner-all ui-btn-icon-right ui-icon-Search">Search</a>
         </div>
-
-        <div data-role="content">
-            <div ng-repeat="p in products">
-                <a href="#" class="ui-btn ui-shadow" ng-click="edit(p.Id)">{{p.Product_name}}</a>
-            </div>
+        <div role="main" class="ui-content">
+            <ul data-role="listview" data-inset="true" id="ulProduct">
+            </ul>
         </div>
-
         <div data-role="footer" data-position="fixed">
             <div data-role="navbar">
                 <ul>
@@ -51,6 +49,8 @@
         var app = angular.module('myApp', []);
         app.controller('myCtrl', function ($scope, $http, $window) {
             $(document).ready(function () {
+                var ul = document.getElementById('ulProduct');
+
                 var isAdmin = $window.sessionStorage.getItem("isAdmin");
                 var userId = $window.sessionStorage.getItem("userId");
 
@@ -72,7 +72,7 @@
                 } else {
                     var get = $http({
                         method: "GET",
-                        url: ip_address + 'Products/GetProductByUserId?userId='+userId,
+                        url: ip_address + 'Products/GetProductByUserId?userId=' + userId,
                         dataType: 'json',
                         headers: {
                             "Content-Type": "application/json"
@@ -80,6 +80,40 @@
                     }).then(function successCallback(response) {
                         if (response.data != "null") {
                             $scope.products = response.data;
+                            var isAdmin = $window.sessionStorage.getItem("isAdmin");
+                            for (var i = 0; i < $scope.products.length; i++) {
+                                  
+                                var li = document.createElement('li');
+                                ul.appendChild(li);
+                                li.classList.add('ui-li-has-thumb');
+                                li.classList.add('ui-first-child');
+                                li.classList.add('ui-last-child');
+
+                                var a = document.createElement('a');
+                                li.appendChild(a);                          
+                                a.classList.add('ui-btn');
+                                a.classList.add('ui-btn-icon-right');
+                                a.classList.add('ui-icon-carat-r');
+                                a.href = isAdmin ? "page-editProductByAdmin.html?id=" +  $scope.products[i].Id :  "page-editProductByUser.html?id=" + $scope.products[i].Id;
+
+                                var img = document.createElement('img');
+                                a.appendChild(img);
+                                img.src= $scope.products[i].Image ? (ip_address + 'UploadedFiles/' + $scope.products[i].Image) : "";
+                                img.classList.add('ui-li-thumb');
+
+                                var h2 = document.createElement('h2');
+                                a.appendChild(h2);
+                                h2.innerHTML=$scope.products[i].Product_name;
+
+                                var p = document.createElement('p');
+                                a.appendChild(p);
+                                p.innerHTML=$scope.products[i].Product_explanation	;
+
+                                var p = document.createElement('p');
+                                a.appendChild(p);
+                                p.innerHTML=$scope.products[i].Product_price;
+                                p.classList.add('ui-li-aside');
+                            }
                         }
                     }, function errorCallback(response) {
                         alert("Error");
