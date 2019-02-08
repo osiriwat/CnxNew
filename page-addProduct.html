@@ -57,13 +57,18 @@
             smallImage.style.display = 'block';
             smallImage.src = imageURI;
 
-            var imgFileName=document.getElementById('productImage').value+".jpg";
+            var fileName = document.getElementById('productImage').value;
+            if(fileName.indexOf(".jpg") >= 0)
+                imgFileName=fileName;
+            else
+                imgFileName=fileName+".jpg";
+
+            document.getElementById('productImage').value = imgFileName;
+
             var options = new FileUploadOptions();
             options.fileKey = "file";
             options.fileName = imgFileName;
             options.mimeType = "image/jpeg";
-
-            document.getElementById('productImage').value=imgFileName;
 
             var params = new Object();
             params.value1 = "test";
