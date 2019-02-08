@@ -232,11 +232,11 @@
                             $scope.product = response.data;
                             if($scope.product.Image)
                             {
-                                document.getElementById('productImage').value = $scope.product.Image;
+                                document.getElementById('productImage').value =$scope.product.Id;                             
                             }
                             else
                             {
-                                document.getElementById('productImage').value =$scope.product.Id;
+                                document.getElementById('productImage').value = $scope.product.Image;
                             }
                            
                             $('#productImg').attr('src', ip_address + 'UploadedFiles/' + $scope
