@@ -10,6 +10,82 @@
     <script src="js/jquery-1.11.3.min.js"></script>
     <script src="js/jquery.mobile-1.4.5.min.js"></script>
     <script src="config.js"></script>
+    <script type="text/javascript" src="js/cordova.js"></script>
+    <script type="text/javascript" charset="utf-8">
+        var pictureSource; // picture source
+        var destinationType; // sets the format of returned value
+
+        // Wait for device API libraries to load
+        //
+        document.addEventListener("deviceready", onDeviceReady, false);
+
+        // device APIs are available
+        //
+        function onDeviceReady() {
+            pictureSource = navigator.camera.PictureSourceType;
+            destinationType = navigator.camera.DestinationType;
+        }
+
+        function capturePhoto() {
+            // Take picture using device camera and retrieve image as base64-encoded string
+            navigator.camera.getPicture(uploadPhoto, onFail, {
+                quality: 50,
+                destinationType: navigator.camera.DestinationType.FILE_URI
+            });
+        }
+
+        function capturePhotoEdit() {
+            // Take picture using device camera, allow edit, and retrieve image as base64-encoded string
+            navigator.camera.getPicture(uploadPhoto, onFail, {
+                quality: 20,
+                allowEdit: true,
+                destinationType: navigator.camera.DestinationType.FILE_URI
+            });
+        }
+
+        function getPhoto(source) {
+            // Retrieve image file location from specified source
+            navigator.camera.getPicture(uploadPhoto, onFail, {
+                quality: 50,
+                destinationType: navigator.camera.DestinationType.FILE_URI,
+                sourceType: source
+            });
+        }
+
+        function uploadPhoto(imageURI) {
+            var smallImage = document.getElementById('smallImage');
+            smallImage.style.display = 'block';
+            smallImage.src = imageURI;
+
+            var imgFileName = document.getElementById('productImage').value + ".jpg";
+            var options = new FileUploadOptions();
+            options.fileKey = "file";
+            options.fileName = imgFileName;
+            options.mimeType = "image/jpeg";
+
+            document.getElementById('productImage').value = imgFileName;
+
+            var params = new Object();
+            params.value1 = "test";
+            params.value2 = "param";
+
+            options.params = params;
+            options.chunkedMode = false;
+
+            var ft = new FileTransfer();
+            ft.upload(imageURI, ip_address + "Products/UploadFile",
+                function (result) {
+                    console.log(JSON.stringify(result));
+                },
+                function (error) {
+                    console.log(JSON.stringify(error));
+                }, options);
+        }
+
+        function onFail(message) {
+            alert('Failed because: ' + message);
+        }
+    </script>
 </head>
 
 <body>
@@ -26,12 +102,18 @@
 
                 <div wight=100%>
                     <div class="ui-block-a-30%" style="text-align:left;">
-                        <a class="ui-corner-all"><img id="productImg" src="img/1.jpg" width="100px" height="100px"></a>
+                        <a href="#"><img src=" " width="140px" height="150px" border="3" id="smallImage" border-color="#000000"></a><br>
                         <br>
-                        <div text="text-align:center;"><a href="#">เพิ่มรูปภาพ</a></div>
+                        <input type="button" onclick="capturePhoto();" data-inline="true" data-icon="camera"
+                            data-iconpos="notext" value="Icon only">
+                        <input type="button" onclick="capturePhotoEdit();" data-inline="true" data-icon="edit"
+                            data-iconpos="notext" value="Icon only">
+                        <input type="button" onclick="getPhoto(pictureSource.PHOTOLIBRARY);" data-inline="true"
+                            data-icon="grid" data-iconpos="notext" value="Icon only">
                     </div>
 
                     <form>
+                        <input type="hidden" name="text-12" ng-model="product.Image" id="productImage" value="">
                         <input type="hidden" ng-model="product.Id">
                         <div class="ui-field-contain">
                             <label for="text-12">ชื่อสินค้า:</label>
@@ -136,7 +218,7 @@
                     var url = new URL(window.location.href);
                     var id = url.searchParams.get("id");
 
-                 
+
 
                     var get = $http({
                         method: "GET",
@@ -148,7 +230,9 @@
                     }).then(function successCallback(response) {
                         if (response.data != "null") {
                             $scope.product = response.data;
-                            $('#productImg').attr('src', ip_address+'UploadedFiles/'+$scope.product.Image);
+                            document.getElementById('productImage').value = $scope.product.Image;
+                            $('#productImg').attr('src', ip_address + 'UploadedFiles/' + $scope
+                                .product.Image);
 
                             var getProductGroups = $http({
                                 method: "GET",
@@ -247,7 +331,7 @@
                         return;
                     }
                     $scope.product.User_Id = $window.sessionStorage.getItem("userId");
-
+                    $scope.product.Image = document.getElementById('productImage').value;
                     $scope.product.Product_group_id = $("#productgroup").val();
                     $scope.product.Product_type_id = $("#producttype").val();
                     $scope.product.Product_unit_id = $("#productunit").val();
