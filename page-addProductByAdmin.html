@@ -1,5 +1,4 @@
-<html lang="en">
-
+﻿<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -10,24 +9,22 @@
     <script src="js/jquery-1.11.3.min.js"></script>
     <script src="js/jquery.mobile-1.4.5.min.js"></script>
     <script src="config.js"></script>
-
 </head>
-
 <body>
-
     <div data-role="page" ng-app="myApp" ng-controller="myCtrl">
         <div data-role="header">
             <a href="#" ng-click="back()" style="margin-top: 5px" class="ui-btn-left ui-btn ui-btn-inline ui-mini ui-corner-all ui-btn-icon-left ui-icon-carat-l">Back</a>
             <p style="text-align:center;">เพิ่มสินค้า</p>
             <a href="#" style="margin-top: 5px" ng-click="Save()" class="ui-btn-right ui-btn ui-btn-inline ui-mini ui-corner-all ui-btn-icon-right ui-icon-check">บันทึก</a>
         </div>
-
         <div data-role="content">
             <div class="ui-grid-a">
-
                 <div wight=100%>
-                    <div class="ui-block-a-30%" style="text-align:left;"><a class="ui-corner-all"><img src="img/1.jpg"
-                                width="100px" height="100px"></a>
+                    <div class="ui-block-a-30%" style="text-align:left;">
+                        <a class="ui-corner-all">
+                            <img src="img/1.jpg"
+                                 width="100px" height="100px">
+                        </a>
                         <a><img src="img/1.jpg" width="100px" height="100px"></a>
                         <a><img src="img/1.jpg" width="100px" height="100px"></a>
                         <a><img src="img/1.jpg" width="100px" height="100px"></a>
@@ -35,7 +32,6 @@
                         <br>
                         <div text="text-align:center;"><a href="#">แก้ไขรูปภาพ</a></div>
                     </div>
-
                     <form>
                         <div class="ui-field-contain">
                             <label for="text-12">ชื่อสินค้า:</label>
@@ -45,98 +41,82 @@
                             <div class="ui-field-contain">
                                 <label for="text-13">ชื่อร้าน:</label>
                                 <select name="select-choice-a" id="select-choice-a" data-native-menu="true" ng-options="x.Contact_name for x in contacts"
-                                    ng-model="contact"></select>
+                                        ng-model="contact"></select>
                             </div>
-
                             <div class="ui-field-contain">
                                 <label for="text-13">คำอธิบาย:</label>
                                 <input type="text" data-clear-btn="true" ng-model="product.Product_explanation" name="text-13"
-                                    id="text-13" value="">
+                                       id="text-13" value="">
                             </div>
                             <div class="ui-field-contain">
                                 <div class="ui-field-contain">
                                     <label for="text-12">ขนาด:</label>
                                     <input type="number" name="text-12" ng-model="product.Product_size" id="text-12"
-                                        value="">
+                                           value="">
                                 </div>
-
                                 <div class="ui-field-contain">
                                     <label for="text-12">น้ำหนัก:</label>
                                     <input type="number" name="text-12" ng-model="product.Product_weight" id="text-12"
-                                        value="">
+                                           value="">
                                 </div>
-
                                 <div class="ui-field-contain">
                                     <label for="text-12">วิธีใช้:</label>
                                     <input type="text" name="text-12" ng-model="product.Product_instruction" id="text-12"
-                                        value="">
+                                           value="">
                                 </div>
-
                                 <div class="ui-field-contain">
                                     <label for="text-12">อื่นๆ:</label>
                                     <input type="text" name="text-12" ng-model="product.Product_other" id="text-12"
-                                        value="">
+                                           value="">
                                 </div>
-
                                 <div class="ui-field-contain">
                                     <label for="text-12">ราคา:</label>
                                     <input type="number" name="text-12" ng-model="product.Product_price" id="text-12"
-                                        value="">
+                                           value="">
+                                </div>
+                                <div class="ui-field-contain">
+                                    <label for="text-13">หมวดสินค้า:</label>
+                                    <select name="select-choice-a" id="select-choice-a" data-native-menu="true"
+                                            ng-options="x.Product_group for x in productgroups" ng-model="product.Product_group"></select>
+                                </div>
+                                <div class="ui-field-contain">
+                                    <label for="text-13">ประเภทสินค้า:</label>
+                                    <select name="select-choice-a" id="select-choice-a" data-native-menu="true"
+                                            ng-options="x.Product_type for x in producttypes" ng-model="product.Product_type"></select>
+                                </div>
+                                <div class="ui-field-contain">
+                                    <label for="text-13">หน่วยนับ:</label>
+                                    <select name="select-choice-a" id="select-choice-a" data-native-menu="true"
+                                            ng-options="x.Product_unit for x in productunits" ng-model="product.Product_unit"></select>
+                                </div>
+                                <div class="ui-field-contain">
+                                    <label for="text-12">Keywords:</label>
+                                    <input type="text" name="text-12" ng-model="product.Keyword" id="text-12"
+                                           value="">
+                                </div>
+                                <div class="ui-field-contain">
+                                    <label for="text-12">Title:</label>
+                                    <input type="text" name="text-12" ng-model="product.Title" id="text-12"
+                                           value="">
+                                </div>
+                                <div class="ui-field-contain">
+                                    <label for="text-12">Description:</label>
+                                    <input type="text" name="text-12" ng-model="product.Description" id="text-12"
+                                           value="">
                                 </div>
 
-                                <ui>
-                                    <div class="ui-field-contain">
-                                        <label for="text-13">หมวดสินค้า:</label>
-                                        <select name="select-choice-a" id="select-choice-a" data-native-menu="true"
-                                            ng-options="x.Product_group for x in productgroups" ng-model="product.Product_group"></select>
-                                    </div>
-                                    <ui>
-                                        <div class="ui-field-contain">
-                                            <label for="text-13">ประเภทสินค้า:</label>
-                                            <select name="select-choice-a" id="select-choice-a" data-native-menu="true"
-                                                ng-options="x.Product_type for x in producttypes" ng-model="product.Product_type"></select>
-                                        </div>
-                                        <div class="ui-field-contain">
-                                            <label for="text-13">หน่วยนับ:</label>
-                                            <select name="select-choice-a" id="select-choice-a" data-native-menu="true"
-                                                ng-options="x.Product_unit for x in productunits" ng-model="product.Product_unit"></select>
-                                        </div>
-                                        <div class="ui-field-contain">
-                                            <label for="text-12">Keywords:</label>
-                                            <input type="text" name="text-12" ng-model="product.Keyword" id="text-12"
-                                                value="">
-                                        </div>
-                                        <div class="ui-field-contain">
-                                            <label for="text-12">Title:</label>
-                                            <input type="text" name="text-12" ng-model="product.Title" id="text-12"
-                                                value="">
-                                        </div>
-
-                                        <div class="ui-field-contain">
-                                            <label for="text-12">Description:</label>
-                                            <input type="text" name="text-12" ng-model="product.Description" id="text-12"
-                                                value="">
-                                        </div>
-
-
-                                        <div class="ui-field-contain">
-                                            <label for="text-12">Website:</label>
-                                            <input type="text" name="text-12" ng-model="product.Website" id="text-12"
-                                                value="">
-                                        </div>
-
+                                <div class="ui-field-contain">
+                                    <label for="text-12">Website:</label>
+                                    <input type="text" name="text-12" ng-model="product.Website" id="text-12"
+                                           value="">
+                                </div>
 
                             </div>
                     </form>
-
                 </div>
 
 
-
-
             </div><!-- /navbar -->
-
-
 
             <div data-role="footer" data-position="fixed">
                 <div data-role="navbar">
@@ -262,5 +242,4 @@
             });
         </script>
 </body>
-
 </html>

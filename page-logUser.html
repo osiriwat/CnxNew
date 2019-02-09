@@ -1,4 +1,4 @@
-<html lang="en">
+﻿<html lang="en">
 
 <head>
     <meta charset="UTF-8">
@@ -90,6 +90,7 @@
                 }).then(function successCallback(response) {
                     if (response.data.users) {
                         $window.sessionStorage.setItem("userId", response.data.users.Id);
+                        $window.sessionStorage.setItem("userName", response.data.users.User_name);
                         window.location.href = "page-User.html";
                     } else
                         alert("User name or Password incorrect");

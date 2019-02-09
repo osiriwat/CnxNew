@@ -87,6 +87,7 @@
                 }).then(function successCallback(response) {
                     if (response.data.users) {
                         $window.sessionStorage.setItem("userId", response.data.users.Id);
+                        $window.sessionStorage.setItem("userName", response.data.users.User_name);
                         $window.sessionStorage.setItem("isAdmin", true);
                         window.location.href = "page-Admin.html";
                     } else

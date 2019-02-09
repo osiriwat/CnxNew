@@ -94,7 +94,7 @@
                                 a.classList.add('ui-btn');
                                 a.classList.add('ui-btn-icon-right');
                                 a.classList.add('ui-icon-carat-r');
-                                a.href = isAdmin ? "page-editProductByAdmin.html?id=" +  $scope.products[i].Id :  "page-editProductByUser.html?id=" + $scope.products[i].Id;
+                                a.href ="javascript:edit("+$scope.products[i].Id+")";
 
                                 var img = document.createElement('img');
                                 a.appendChild(img);
@@ -120,7 +120,7 @@
                     });
                 }
             });
-            $scope.edit = function (id) {
+            edit = function (id) {
                 var isAdmin = $window.sessionStorage.getItem("isAdmin");
                 if (isAdmin)
                     window.location.href = "page-editProductByAdmin.html?id=" + id;

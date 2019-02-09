@@ -17,7 +17,7 @@
     <div data-role="page" ng-app="myApp" ng-controller="myCtrl">
         <div data-role="header">
             <a href="index.html" style="margin-top: 5px" class="ui-btn-left ui-btn ui-btn-inline ui-mini ui-corner-all ui-btn-icon-left ui-icon-carat-l">Back</a>
-            <p style="text-align:center;">Admin: ชื่อ</p>
+            <p style="text-align:center;">Admin: {{userName}}</p>
             <a ng-click="Logout()" style="margin-top: 5px" class="ui-btn-right ui-btn ui-btn-inline ui-mini ui-corner-all ui-btn-icon-right ui-icon-power">ออกจากระบบ</a>
         </div>
 
@@ -45,7 +45,7 @@
             </div>
             <div data-role="navbar">
                 <ul>
-                    <li><a href="#" class="ui-btn">เพิ่ม Keywords</a></li>
+                    <li><a href="#" ng-click="addKeyword()"  class="ui-btn">เพิ่ม Keywords</a></li>
                 </ul>
             </div><!-- /navbar -->
 
@@ -69,6 +69,7 @@
     <script>
         var app = angular.module('myApp', []);
         app.controller('myCtrl', function ($scope, $http, $window) {
+            $scope.userName=$window.sessionStorage.getItem("userName");
             $scope.editProduct = function () {
                 window.location.href = "page-editProduct.html";
             }
@@ -80,6 +81,9 @@
             }
             $scope.editUser = function () {
                 window.location.href = "page-editUser.html";
+            }
+            $scope.addKeyword = function () {
+                window.location.href = "page-insertKeyword.html";
             }
             $scope.Logout = function () {
 
