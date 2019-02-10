@@ -9,7 +9,7 @@
     <script src="js/jquery-1.11.3.min.js"></script>
     <script src="js/jquery.mobile-1.4.5.min.js"></script>
     <script src="config.js"></script>
-    <!-- <script type="text/javascript" src="cordova.js"></script>
+    <script type="text/javascript" src="cordova.js"></script>
     <script type="text/javascript" charset="utf-8">
         var pictureSource; // picture source
         var destinationType; // sets the format of returned value
@@ -89,7 +89,7 @@
         function onFail(message) {
             alert('Failed because: ' + message);
         }
-    </script> -->
+    </script> 
 </head>
 <body>
     <div data-role="page" ng-app="myApp" ng-controller="myCtrl">
@@ -324,7 +324,12 @@
                     return;
                 }
                 $scope.product.User_Id = $window.sessionStorage.getItem("userId");
-                $scope.product.Image = document.getElementById('productImage').value;
+                var fileName = document.getElementById('productImage').value;
+                if (fileName.indexOf(".jpg") >= 0)
+                    $scope.product.Image = fileName;
+                else
+                    $scope.product.Image = "";
+               
                 if ($scope.product.Product_group)
                     $scope.product.Product_group_id = $scope.product.Product_group.Id;
 
