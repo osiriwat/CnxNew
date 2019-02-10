@@ -1,48 +1,110 @@
-<html lang="en">
+﻿<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>CnxCenterpoint</title>
-    <link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css" />
-    <script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
-    <script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
-
+    <script src="js/angular.min.js"></script>
+    <link rel="stylesheet" href="css/jquery.mobile-1.4.5.min.css">
+    <link rel="stylesheet" href="css/listview-grid.css">
+    <script src="js/jquery-1.11.3.min.js"></script>
+    <script src="js/jquery.mobile-1.4.5.min.js"></script>
+    <script src="config.js"></script>
 </head>
 <body>
-    
-    <div data-role="page">
-    
+    <div data-role="page" id="demo-page" class="my-page" ng-app="myApp" ng-controller="myCtrl">
         <div data-role="header">
-        <!-- /grid-a -->
+            <!-- /grid-a -->
             <div class="ui-grid-b ui-responsive">
-                <div class="ui-block-a"><img class="popphoto" src="img/1.png" alt="Paris, France" style="width:100%"></a>
+                <div class="ui-block-a">
+                    <img class="popphoto" src="img/1.png" alt="Paris, France" style="width:100%"></a>
                 </div>
             </div>
         </div>
-
         <div data-role="content">
             <p>สินค้าอันดับเข้าชมสูงสุดประจำสัปดาห์ :</p><br>
-            
-            <div class="ui-grid-a ui-responsive">
-                <div class="ui-block-a"><a href="#" class="ui-btn ui-shadow ui-corner-all">Grid A</a></div>
-                <div class="ui-block-b"><a href="#" class="ui-btn ui-shadow ui-corner-all">Grid A</a></div>
+
+            <div role="main" class="ui-content">
+                <ul data-role="listview" data-inset="true" id="ulProduct"></ul>
             </div>
-
         </div>
-
-
         <div data-role="footer" data-position="fixed">
             <div data-role="navbar">
-            <ul>
-                <li><a href="#home" data-icon="home" data-ajax="false" class="ui-btn-active">หน้าแรก</a></li>
-                <li><a href="https://thai.cnxcenterpoint.com/" data-icon="eye" data-ajax="false">ชมเว็บไชต์</a></li>
-                <li><a href="page-help.html" data-icon="info" data-ajax="false">ช่วยเหลือ</a></li>
-                <li><a href="page-logUser.html" data-icon="user" data-ajax="false">บัญชีของฉัน</a></li>
-            </ul>
+                <ul>
+                    <li><a href="#home" data-icon="home" data-ajax="false" class="ui-btn-active">หน้าแรก</a></li>
+                    <li><a href="https://thai.cnxcenterpoint.com/" data-icon="eye" data-ajax="false">ชมเว็บไชต์</a></li>
+                    <li><a href="page-help.html" data-icon="info" data-ajax="false">ช่วยเหลือ</a></li>
+                    <li><a href="page-logUser.html" data-icon="user" data-ajax="false">บัญชีของฉัน</a></li>
+                </ul>
             </div>
         </div><!-- /footer -->
     </div><!-- /page popup -->
 
+    <script>
+        var app = angular.module('myApp', []);
+        app.controller('myCtrl', function ($scope, $http, $window) {
+            $(document).ready(function () {
+                var get = $http({
+                    method: "GET",
+                    url: ip_address + 'Products/GetTopViewAll',
+                    dataType: 'json',
+                    headers: {
+                        "Content-Type": "application/json"
+                    }
+                }).then(function successCallback(response) {
+                    if (response.data != "null") {
+                        $scope.products = response.data.products;
+                        showList($scope.products);
+                    }
+                }, function errorCallback(response) {
+                    alert("Error");
+                });
+            });
+            showList = function (products) {
+                var isAdmin = $window.sessionStorage.getItem("isAdmin");
+                var ul = document.getElementById('ulProduct');
+                for (var i = 0; i < products.length; i++) {
+
+                    var li = document.createElement('li');
+                    ul.appendChild(li);
+                    li.classList.add('ui-li-has-thumb');
+                    li.classList.add('ui-first-child');
+                    li.classList.add('ui-last-child');
+
+                    var a = document.createElement('a');
+                    li.appendChild(a);
+                    a.classList.add('ui-btn');
+                    a.classList.add('ui-btn-icon-right');
+                    a.classList.add('ui-icon-carat-r');
+                    a.href = "javascript:edit(" + products[i].Id + ")";
+
+                    var img = document.createElement('img');
+                    a.appendChild(img);
+                    img.src = products[i].Image ? (ip_address + 'UploadedFiles/' + products[i].Image) : "";
+                    img.classList.add('ui-li-thumb');
+
+                    var h2 = document.createElement('h2');
+                    a.appendChild(h2);
+                    h2.innerHTML = products[i].Product_name;
+
+                    var p = document.createElement('p');
+                    a.appendChild(p);
+                    var explanation = products[i].Product_explanation;
+                    if (explanation) {
+                        if (explanation.length > 50)
+                            p.innerHTML = explanation.substring(1, 50) + "...";
+                        else
+                            p.innerHTML = explanation;
+                    } else
+                        p.innerHTML = explanation;
+
+                    var p = document.createElement('p');
+                    a.appendChild(p);
+                    p.innerHTML = products[i].Product_price;
+                    p.classList.add('ui-li-aside');
+                }
+            }
+        });
+    </script>
 </body>
 </html>
