@@ -17,7 +17,6 @@
 
     <div data-role="page" ng-app="myApp" ng-controller="myCtrl">
         <div data-role="header">
-            <a href="index.html" style="margin-top: 5px" class="ui-btn-left ui-btn ui-btn-inline ui-mini ui-corner-all ui-btn-icon-left ui-icon-carat-l">Back</a>
             <p style="text-align:center;">เข้าสู่ระบบ</p>
         </div>
 
@@ -36,9 +35,6 @@
                     <label for="password-2">รหัสผ่าน:</label>
                     <input type="password" data-clear-btn="true" name="password-2" id="password-2" value=""
                         autocomplete="off" ng-model="Password" required oninvalid="this.setCustomValidity('Please fill our this field')">
-
-
-
                     <!-- จะทำไฮเปอร์ลิ้งค์ส่งรหัสผ่านไปยังอีเมล์ของผู้ใช้งานที่กรอก เพื่อส่งรหัสผ่่าน(ชิดซ้าย) -->
                     <p>ลืมรหัสผ่าน</p>
 
@@ -49,9 +45,6 @@
                 </form>
             </div>
         </div><!-- /navbar -->
-
-
-
         <div data-role="footer" data-position="fixed">
             <div data-role="navbar">
                 <ul>
@@ -70,7 +63,7 @@
             var isAdmin = $window.sessionStorage.getItem("isAdmin");
 
             if (userId != null && isAdmin!=null) {
-                window.location.href = "page-UserAdmin.html";
+                window.location.href = "page-Admin.html";
             }else if(userId != null){
                 window.location.href = "page-User.html";
             }

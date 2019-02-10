@@ -1,4 +1,4 @@
-<html lang="en">
+﻿<html lang="en">
 
 <head>
     <meta charset="UTF-8">
@@ -17,42 +17,19 @@
 
     <div data-role="page" ng-app="myApp" ng-controller="myCtrl">
         <div data-role="header">
-            <a href="index.html" style="margin-top: 5px" class="ui-btn-left ui-btn ui-btn-inline ui-mini ui-corner-all ui-btn-icon-left ui-icon-carat-l">Back</a>
+            <a href="#" ng-click="back()" style="margin-top: 5px" class="ui-btn-left ui-btn ui-btn-inline ui-mini ui-corner-all ui-btn-icon-left ui-icon-carat-l">Back</a>
             <p style="text-align:center;">บัญชีของฉัน</p>
             <a href="#" ng-click="Logout()" style="margin-top: 5px" class="ui-btn-right ui-btn ui-btn-inline ui-mini ui-corner-all ui-btn-icon-right ui-icon-power">ออกจากระบบ</a>
         </div>
 
         <div data-role="content">
-            <div class="ui-grid-a">
-
-
-                <div class="ui-block-a"><a class="ui-corner-all"><img src="img/1.jpg" width="100px" height="100px"></a></div>
-                <div class="ui-block-b"><a class="ui-shadow">
-
-                    </a></div>
-            </div>
-
-            <div class="ui-grid-solo ui-mini">
-                <div class="ui-block-a">
-                    <a href="#"><input type="button" ng-click="editUser()" value="แก้ไขบัญชีผู้ใช้งาน"></a></div>
-            </div><br>
             <div data-role="navbar">
                 <ul class="ui-grid-a">
                     <li class="ui-block-a"><a href="#" ng-click="editProduct()" class="ui-btn-active ui-link ui-btn">แก้ไขข้อมูลสินค้า</a></li>
                     <li class="ui-block-b"><a href="#" ng-click="addProduct()" class="ui-link ui-btn">เพิ่มสินค้า</a></li>
                 </ul>
-                <form>
-                    <input type="search" class="ui-mini" name="search-1" id="search-1" value="">
-                </form>
             </div>
-
-
-
-
         </div><!-- /navbar -->
-
-
-
         <div data-role="footer" data-position="fixed">
             <div data-role="navbar">
                 <ul>
@@ -67,14 +44,14 @@
     <script>
         var app = angular.module('myApp', []);
         app.controller('myCtrl', function ($scope, $http, $window) {
+            $scope.back = function () {
+                window.location.href = "page-Admin.html";
+            }
             $scope.addProduct = function () {
                 window.location.href = "page-addProductByAdmin.html";
             }
             $scope.editProduct = function () {
                 window.location.href = "page-editProduct.html";
-            }
-            $scope.editUser = function () {
-                window.location.href = "page-editUserbyAdmin.html";
             }
             $scope.Logout = function () {
 

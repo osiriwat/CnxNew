@@ -1,4 +1,4 @@
-<html lang="en">
+﻿<html lang="en">
 
 <head>
     <meta charset="UTF-8">
@@ -16,7 +16,6 @@
 
     <div data-role="page" ng-app="myApp" ng-controller="myCtrl">
         <div data-role="header">
-            <a href="index.html" style="margin-top: 5px" class="ui-btn-left ui-btn ui-btn-inline ui-mini ui-corner-all ui-btn-icon-left ui-icon-carat-l">Back</a>
             <p style="text-align:center;">เข้าสู่ระบบ</p>
         </div>
 
@@ -64,7 +63,7 @@
             var isAdmin = $window.sessionStorage.getItem("isAdmin");
 
             if (userId != null && isAdmin!=null) {
-                window.location.href = "page-UserAdmin.html";
+                window.location.href = "page-Admin.html";
             }else if(userId != null){
                 window.location.href = "page-User.html";
             }

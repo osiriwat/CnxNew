@@ -1,4 +1,4 @@
-<html lang="en">
+﻿<html lang="en">
 
 <head>
     <meta charset="UTF-8">
@@ -11,28 +11,18 @@
     <script src="js/jquery-1.11.3.min.js"></script>
     <script src="js/jquery.mobile-1.4.5.min.js"></script>
     <script src="config.js"></script>
-    <style>
-        .center-screen {
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-        }
-    </style>
 </head>
 
 <body>
 
-    <div data-role="page"  id="demo-page" class="my-page" ng-app="myApp" ng-controller="myCtrl">
+    <div data-role="page" id="demo-page" class="my-page" ng-app="myApp" ng-controller="myCtrl">
         <div data-role="header">
             <a href="#" ng-click="back()" style="margin-top: 5px" class="ui-btn-left ui-btn ui-btn-inline ui-mini ui-corner-all ui-btn-icon-left ui-icon-carat-l">Back</a>
-            <p style="text-align:center;">แก้ไขสินค้า</p>
+            <p style="text-align:center;">{{editProduct}}</p>
             <a href="#" style="margin-top: 5px" class="ui-btn-right ui-btn ui-btn-inline ui-mini ui-corner-all ui-btn-icon-right ui-icon-Search">Search</a>
         </div>
         <div role="main" class="ui-content">
-            <ul data-role="listview" data-inset="true" id="ulProduct">
-            </ul>
+            <ul data-role="listview" data-inset="true" id="ulProduct"></ul>
         </div>
         <div data-role="footer" data-position="fixed">
             <div data-role="navbar">
@@ -53,22 +43,48 @@
 
                 var isAdmin = $window.sessionStorage.getItem("isAdmin");
                 var userId = $window.sessionStorage.getItem("userId");
+                var url = new URL(window.location.href);
+                var isApprove = url.searchParams.get("isApprove");
+
+                if (isApprove == "true")
+                    $scope.editProduct = "อนุมัติสินค้า";
+                else
+                    $scope.editProduct = "แก้ไขสินค้า";
 
                 if (isAdmin) {
-                    var get = $http({
-                        method: "GET",
-                        url: ip_address + 'Products',
-                        dataType: 'json',
-                        headers: {
-                            "Content-Type": "application/json"
-                        }
-                    }).then(function successCallback(response) {
-                        if (response.data != "null") {
-                            $scope.products = response.data;
-                        }
-                    }, function errorCallback(response) {
-                        alert("Error");
-                    });
+                    if (isApprove == "true") {
+                        var get = $http({
+                            method: "GET",
+                            url: ip_address + 'Products/GetNotApproveAll',
+                            dataType: 'json',
+                            headers: {
+                                "Content-Type": "application/json"
+                            }
+                        }).then(function successCallback(response) {
+                            if (response.data != "null") {
+                                $scope.products = response.data;
+                                showList($scope.products);
+                            }
+                        }, function errorCallback(response) {
+                            alert("Error");
+                        });
+                    } else {
+                        var get = $http({
+                            method: "GET",
+                            url: ip_address + 'Products',
+                            dataType: 'json',
+                            headers: {
+                                "Content-Type": "application/json"
+                            }
+                        }).then(function successCallback(response) {
+                            if (response.data != "null") {
+                                $scope.products = response.data;
+                                showList($scope.products);
+                            }
+                        }, function errorCallback(response) {
+                            alert("Error");
+                        });
+                    }
                 } else {
                     var get = $http({
                         method: "GET",
@@ -80,56 +96,76 @@
                     }).then(function successCallback(response) {
                         if (response.data != "null") {
                             $scope.products = response.data;
-                            var isAdmin = $window.sessionStorage.getItem("isAdmin");
-                            for (var i = 0; i < $scope.products.length; i++) {
-                                  
-                                var li = document.createElement('li');
-                                ul.appendChild(li);
-                                li.classList.add('ui-li-has-thumb');
-                                li.classList.add('ui-first-child');
-                                li.classList.add('ui-last-child');
-
-                                var a = document.createElement('a');
-                                li.appendChild(a);                          
-                                a.classList.add('ui-btn');
-                                a.classList.add('ui-btn-icon-right');
-                                a.classList.add('ui-icon-carat-r');
-                                a.href ="javascript:edit("+$scope.products[i].Id+")";
-
-                                var img = document.createElement('img');
-                                a.appendChild(img);
-                                img.src= $scope.products[i].Image ? (ip_address + 'UploadedFiles/' + $scope.products[i].Image) : "";
-                                img.classList.add('ui-li-thumb');
-
-                                var h2 = document.createElement('h2');
-                                a.appendChild(h2);
-                                h2.innerHTML=$scope.products[i].Product_name;
-
-                                var p = document.createElement('p');
-                                a.appendChild(p);
-                                p.innerHTML=$scope.products[i].Product_explanation	;
-
-                                var p = document.createElement('p');
-                                a.appendChild(p);
-                                p.innerHTML=$scope.products[i].Product_price;
-                                p.classList.add('ui-li-aside');
-                            }
+                            showList($scope.products);
                         }
                     }, function errorCallback(response) {
                         alert("Error");
                     });
                 }
             });
+
+            showList = function (products) {
+                var isAdmin = $window.sessionStorage.getItem("isAdmin");
+                var ul = document.getElementById('ulProduct');
+                for (var i = 0; i < products.length; i++) {
+
+                    var li = document.createElement('li');
+                    ul.appendChild(li);
+                    li.classList.add('ui-li-has-thumb');
+                    li.classList.add('ui-first-child');
+                    li.classList.add('ui-last-child');
+
+                    var a = document.createElement('a');
+                    li.appendChild(a);
+                    a.classList.add('ui-btn');
+                    a.classList.add('ui-btn-icon-right');
+                    a.classList.add('ui-icon-carat-r');
+                    a.href = "javascript:edit(" + products[i].Id + ")";
+
+                    var img = document.createElement('img');
+                    a.appendChild(img);
+                    img.src = products[i].Image ? (ip_address + 'UploadedFiles/' + products[i].Image) : "";
+                    img.classList.add('ui-li-thumb');
+
+                    var h2 = document.createElement('h2');
+                    a.appendChild(h2);
+                    h2.innerHTML = products[i].Product_name;
+
+                    var p = document.createElement('p');
+                    a.appendChild(p);
+                    var explanation = products[i].Product_explanation;
+                    if (explanation) {
+                        if (explanation.length > 50)
+                            p.innerHTML = explanation.substring(1, 50) + "...";
+                        else
+                            p.innerHTML = explanation;
+                    } else
+                        p.innerHTML = explanation;
+
+                    var p = document.createElement('p');
+                    a.appendChild(p);
+                    p.innerHTML = products[i].Product_price;
+                    p.classList.add('ui-li-aside');
+                }
+            }
             edit = function (id) {
                 var isAdmin = $window.sessionStorage.getItem("isAdmin");
+                var url = new URL(window.location.href);
+                var isApprove = url.searchParams.get("isApprove");
+
                 if (isAdmin)
-                    window.location.href = "page-editProductByAdmin.html?id=" + id;
+                    window.location.href = "page-editProductByAdmin.html?id=" + id + "&isApprove=" + isApprove;
                 else
                     window.location.href = "page-editProductByUser.html?id=" + id;
             }
             $scope.back = function () {
                 var isAdmin = $window.sessionStorage.getItem("isAdmin");
-                if (isAdmin)
+                var url = new URL(window.location.href);
+                var isApprove = url.searchParams.get("isApprove");
+
+                if (isApprove == "true")
+                    window.location.href = "page-Admin.html";
+                else if (isAdmin)
                     window.location.href = "page-UserAdmin.html";
                 else
                     window.location.href = "page-User.html";

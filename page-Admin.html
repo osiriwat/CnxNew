@@ -1,4 +1,4 @@
-<html lang="en">
+﻿<html lang="en">
 
 <head>
     <meta charset="UTF-8">
@@ -16,21 +16,14 @@
 
     <div data-role="page" ng-app="myApp" ng-controller="myCtrl">
         <div data-role="header">
-            <a href="index.html" style="margin-top: 5px" class="ui-btn-left ui-btn ui-btn-inline ui-mini ui-corner-all ui-btn-icon-left ui-icon-carat-l">Back</a>
             <p style="text-align:center;">Admin: {{userName}}</p>
             <a ng-click="Logout()" style="margin-top: 5px" class="ui-btn-right ui-btn ui-btn-inline ui-mini ui-corner-all ui-btn-icon-right ui-icon-power">ออกจากระบบ</a>
         </div>
-
         <div data-role="content">
             <div class="ui-grid-a">
-
-
-                <div class="ui-block-a"><a class="ui-corner-all"><img src="img/1.jpg" width="100px" height="100px"></a></div>
-                <div class="ui-block-b"><a class="ui-shadow">
-
-                    </a></div>
+                <div class="ui-block-a"><a class="ui-corner-all"><img src="img/1.jpg" width="100" height="100"></a></div>
+                <div class="ui-block-b"><a class="ui-shadow"> </a></div>
             </div>
-
             <div class="ui-grid-solo ui-mini">
                 <div class="ui-block-a">
                     <input type="button" ng-click="editUser()" value="แก้ไขบัญชีผู้ใช้งาน"><a href="page-editUser.html"></a></div>
@@ -48,11 +41,6 @@
                     <li><a href="#" ng-click="addKeyword()"  class="ui-btn">เพิ่ม Keywords</a></li>
                 </ul>
             </div><!-- /navbar -->
-
-            <form>
-                <input type="search" class="ui-mini" name="search-1" id="search-1" value="">
-            </form>
-
         </div><!-- /navbar -->
 
         <div data-role="footer" data-position="fixed">
@@ -71,13 +59,13 @@
         app.controller('myCtrl', function ($scope, $http, $window) {
             $scope.userName=$window.sessionStorage.getItem("userName");
             $scope.editProduct = function () {
-                window.location.href = "page-editProduct.html";
+                window.location.href = "page-UserAdmin.html";
             }
             $scope.manageCompany = function () {
                 window.location.href = "manage_companybyadmin.html";
             }
             $scope.approveProduct = function () {
-                window.location.href = "page-approve.html";
+                window.location.href = "page-editProduct.html?isApprove=true";
             }
             $scope.editUser = function () {
                 window.location.href = "page-editUser.html";

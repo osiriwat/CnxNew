@@ -475,8 +475,11 @@
 
                 $scope.product.productkeywords = [];
                 var products = $('#keyword').val();
-                for (var i = 0; i < products.length; i++) {
-                    $scope.product.productkeywords.push({ Id: 0, KeywordId: products[i], ProductId: 0 });
+                if (products) {
+                    for (var i = 0; i < products.length; i++) {
+                        var productkeyword = { Id: 0, KeywordId: products[i], ProductId: 0 };
+                        $scope.product.productkeywords.push(productkeyword);
+                    }
                 }
 
                 $.ajax({
