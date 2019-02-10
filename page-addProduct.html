@@ -208,6 +208,11 @@
             $(document).ready(function () {
                 document.getElementById('productImage').value = Math.random();
 
+                //default images
+                var smallImage = document.getElementById('smallImage');
+                smallImage.style.display = 'block';
+                smallImage.src = ip_address + "/UploadedFiles/product.png";
+
                 $("#productGroup").change(function () {
 
                     $('#keyword').find('option').remove().end().append('').val('whatever');
