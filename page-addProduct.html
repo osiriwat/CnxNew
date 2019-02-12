@@ -89,7 +89,7 @@
         function onFail(message) {
             alert('Failed because: ' + message);
         }
-    </script> 
+    </script>
 </head>
 <body>
     <div data-role="page" ng-app="myApp" ng-controller="myCtrl">
@@ -105,12 +105,13 @@
                         <a class="ui-corner-all"></a>
                         <!-- /กดเพื่อเข้าไปเพิ่มรูปสินค้าจากอัลบั้มรูป (ต้องขออนุญาตการเข้าถึงจากตัวอุปกรณ์)-->
                         <a href="#"><img src="" width="140" height="150" border="3" id="smallImage" border-color="#000000"></a><br>
-                        <input type="button" onclick="capturePhoto();" data-inline="true" data-icon="camera"
-                               data-iconpos="notext" value="Icon only">
+                        <!--<input type="button" onclick="capturePhoto();" data-inline="true" data-icon="camera"
+                        data-iconpos="notext" value="Icon only">-->
                         <input type="button" onclick="capturePhotoEdit();" data-inline="true" data-icon="edit"
                                data-iconpos="notext" value="Icon only">
-                        <input type="button" onclick="getPhoto(pictureSource.PHOTOLIBRARY);" data-inline="true"
-                               data-icon="grid" data-iconpos="notext" value="Icon only">
+                        <!--<input type="button" onclick="getPhoto(pictureSource.PHOTOLIBRARY);" data-inline="true"
+                        data-icon="grid" data-iconpos="notext" value="Icon only">-->
+
                     </div>
                     <form>
                         <input type="hidden" name="text-12" ng-model="product.Image" id="productImage" value="">
@@ -247,7 +248,7 @@
                         if (response.data != "null") {
                             $scope.keywords = response.data.results;
                             var optionsKeyword = '';
-                            for (var i = 0; i < $scope.keywords.length; ++i) 
+                            for (var i = 0; i < $scope.keywords.length; ++i)
                                 optionsKeyword += '<option value="' + $scope.keywords[i].Id + '">' + $scope.keywords[i].Keyword + '</option>';
                             $('#keyword').append(optionsKeyword);
                             var keyword = $("select#keyword");
@@ -334,7 +335,7 @@
                     $scope.product.Image = fileName;
                 else
                     $scope.product.Image = "";
-               
+
                 if ($scope.product.Product_group)
                     $scope.product.Product_group_id = $scope.product.Product_group.Id;
 
@@ -349,8 +350,8 @@
 
                 if ($scope.product.NetWeight)
                     $scope.product.Product_netweight_id = $scope.product.NetWeight.Id;
-               
-               
+
+
                 $scope.product.productkeywords = [];
                 var products = $('#keyword').val();
                 if (products) {

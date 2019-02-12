@@ -1,5 +1,4 @@
 ﻿<html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -10,37 +9,31 @@
     <script src="js/jquery-1.11.3.min.js"></script>
     <script src="js/jquery.mobile-1.4.5.min.js"></script>
     <script src="config.js"></script>
-
 </head>
-
 <body>
-
     <div data-role="page" ng-app="myApp" ng-controller="myCtrl">
         <div data-role="header">
             <p style="text-align:center;">เข้าสู่ระบบ</p>
         </div>
-
         <div data-role="content">
             <div data-role="navbar">
                 <ul class="ui-grid-a">
                     <li class="ui-block-a"><a href="#" class="ui-btn-active ui-link ui-btn">ผู้ประกอบการ</a></li>
                     <li class="ui-block-b"><a href="#" ng-click="switchUser()" class="ui-link ui-btn">ผู้ดูแลระบบ</a></li>
                 </ul><br><br>
-
                 <form action="#" ng-submit="Login()" name="myForm">
                     <label for="email-2">อีเมล์/เบอร์โทรศัพท์ผู้ใช้:</label>
-                    <input type="text" data-clear-btn="true" name="email-2" id="email-2" value="" ng-model="UserName"
-                        required oninvalid="this.setCustomValidity('Please fill our this field')">
-
+                    <input type="text" data-clear-btn="true" name="email-2" id="email-2" value="" ng-model="user.User_name"
+                           required oninvalid="this.setCustomValidity('Please fill our this field')">
                     <label for="password-2">รหัสผ่าน:</label>
                     <input type="password" data-clear-btn="true" name="password-2" id="password-2" value=""
-                        autocomplete="off" ng-model="Password" required oninvalid="this.setCustomValidity('Please fill our this field')">
+                           autocomplete="off" ng-model="user.User_pass" required oninvalid="this.setCustomValidity('Please fill our this field')">
                     <!-- จะทำไฮเปอร์ลิ้งค์ส่งรหัสผ่านไปยังอีเมล์ของผู้ใช้งานที่กรอก เพื่อส่งรหัสผ่่าน(ชิดซ้าย) -->
                     <p>ลืมรหัสผ่าน</p>
-
                     <div class="ui-grid-solo">
                         <div class="ui-block-a">
-                            <input type="submit" name="login" value="เข้าสู่ระบบ" /></div>
+                            <input type="submit" name="login" value="เข้าสู่ระบบ" />
+                        </div>
                     </div>
                 </form>
             </div>
@@ -62,9 +55,9 @@
             var userId = $window.sessionStorage.getItem("userId");
             var isAdmin = $window.sessionStorage.getItem("isAdmin");
 
-            if (userId != null && isAdmin!=null) {
+            if (userId != null && isAdmin != null) {
                 window.location.href = "page-Admin.html";
-            }else if(userId != null){
+            } else if (userId != null) {
                 window.location.href = "page-User.html";
             }
             $scope.switchUser = function () {
@@ -72,27 +65,27 @@
             }
             $scope.Login = function () {
 
-                var login = $http({
-                    method: "GET",
-                    url: ip_address + 'Users/Login?username=' + $scope.UserName + '&password=' +
-                        $scope.Password+"&isAdmin=false",
-                    dataType: 'json',
-                    headers: {
-                        "Content-Type": "application/json"
+                $.ajax({
+                    type: 'POST',
+                    url: ip_address + "Users/Login",
+                    data: {
+                        user: $scope.user
+                    },
+                    cache: false,
+                    success: function (result) {
+                        if (result.users) {
+                            $window.sessionStorage.setItem("userId", result.users.Id);
+                            $window.sessionStorage.setItem("userName", result.users.User_name);
+                            window.location.href = "page-User.html";
+                        } else
+                            alert("User name or Password incorrect");
+                    },
+                    error: function (XMLHttpRequest, textStatus, errorThrown) {
+                        alert("Error");
                     }
-                }).then(function successCallback(response) {
-                    if (response.data.users) {
-                        $window.sessionStorage.setItem("userId", response.data.users.Id);
-                        $window.sessionStorage.setItem("userName", response.data.users.User_name);
-                        window.location.href = "page-User.html";
-                    } else
-                        alert("User name or Password incorrect");
-                }, function errorCallback(response) {
-                    alert("Error");
                 });
             }
         });
     </script>
 </body>
-
 </html>

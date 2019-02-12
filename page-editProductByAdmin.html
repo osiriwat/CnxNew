@@ -57,10 +57,10 @@
             smallImage.src = imageURI;
 
             var fileName = document.getElementById('productImage').value;
-            if(fileName.indexOf(".jpg") >= 0)
-                imgFileName=fileName;
+            if (fileName.indexOf(".jpg") >= 0)
+                imgFileName = fileName;
             else
-                imgFileName=fileName+".jpg";
+                imgFileName = fileName + ".jpg";
 
             document.getElementById('productImage').value = imgFileName;
 
@@ -104,12 +104,13 @@
                     <div class="ui-block-a-30%" style="text-align:left;">
                         <a href="#"><img src=" " width="140px" height="150px" border="3" id="smallImage" border-color="#000000"></a><br>
                         <br>
-                        <input type="button" onclick="capturePhoto();" data-inline="true" data-icon="camera"
-                               data-iconpos="notext" value="Icon only">
+                        <!--<input type="button" onclick="capturePhoto();" data-inline="true" data-icon="camera"
+                        data-iconpos="notext" value="Icon only">-->
                         <input type="button" onclick="capturePhotoEdit();" data-inline="true" data-icon="edit"
                                data-iconpos="notext" value="Icon only">
-                        <input type="button" onclick="getPhoto(pictureSource.PHOTOLIBRARY);" data-inline="true"
-                               data-icon="grid" data-iconpos="notext" value="Icon only">
+                        <!--<input type="button" onclick="getPhoto(pictureSource.PHOTOLIBRARY);" data-inline="true"
+                        data-icon="grid" data-iconpos="notext" value="Icon only">-->
+
                     </div>
                     <form>
                         <input type="hidden" name="text-12" id="productImage">
@@ -208,7 +209,7 @@
                 var id = url.searchParams.get("id");
                 var isApprove = url.searchParams.get("isApprove");
 
-                if (isApprove=="true") {
+                if (isApprove == "true") {
                     $scope.editProduct = "อนุมัติสินค้า";
                 }
                 else {
@@ -474,10 +475,10 @@
                 var url = new URL(window.location.href);
                 var isApprove = url.searchParams.get("isApprove");
 
-                if (isApprove=="true") {
+                if (isApprove == "true") {
                     $.ajax({
                         type: 'POST',
-                        url: ip_address + "Products/Approval/"+$scope.product.Id,
+                        url: ip_address + "Products/Approval/" + $scope.product.Id,
                         cache: false,
                         success: function (result) {
                             if (result.exception) {

@@ -28,10 +28,10 @@
 
                 <form action="#" ng-submit="Login()" name="myForm">
                     <label for="email-2">ชื่อผู้ใช้งาน:</label>
-                    <input type="text" data-clear-btn="true" ng-model="UserName" name="UserName" id="UserName" value="">
+                    <input type="text" data-clear-btn="true"  ng-model="user.User_name" name="UserName" id="UserName" value="">
 
                     <label for="password-2">รหัสผ่าน:</label>
-                    <input type="password" data-clear-btn="true" ng-model="Password" name="password-2" id="password-2"
+                    <input type="password" data-clear-btn="true" ng-model="user.User_pass" name="password-2" id="password-2"
                         value="" autocomplete="off">
 
 
@@ -74,25 +74,26 @@
                     window.location.href = "page-logUser.html";
             }
             $scope.Login = function () {
-
-                var login = $http({
-                    method: "GET",
-                    url: ip_address + 'Users/Login?username=' + $scope.UserName + '&password=' +
-                        $scope.Password+"&isAdmin=true",
-                    dataType: 'json',
-                    headers: {
-                        "Content-Type": "application/json"
+                $scope.user.Is_admin = true;
+                $.ajax({
+                    type: 'POST',
+                    url: ip_address + "Users/Login",
+                    data: {
+                        user: $scope.user
+                    },
+                    cache: false,
+                    success: function (result) {
+                        if (result.users) {
+                            $window.sessionStorage.setItem("userId", result.users.Id);
+                            $window.sessionStorage.setItem("userName", result.users.User_name);
+                            $window.sessionStorage.setItem("isAdmin", true);
+                            window.location.href = "page-Admin.html";
+                        } else
+                            alert("User name or Password incorrect");
+                    },
+                    error: function (XMLHttpRequest, textStatus, errorThrown) {
+                        alert("Error");
                     }
-                }).then(function successCallback(response) {
-                    if (response.data.users) {
-                        $window.sessionStorage.setItem("userId", response.data.users.Id);
-                        $window.sessionStorage.setItem("userName", response.data.users.User_name);
-                        $window.sessionStorage.setItem("isAdmin", true);
-                        window.location.href = "page-Admin.html";
-                    } else
-                        alert("User name or Password incorrect");
-                }, function errorCallback(response) {
-                    alert("Error");
                 });
             }
         });
