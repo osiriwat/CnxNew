@@ -66,11 +66,8 @@
             $scope.Login = function () {
 
                 $.ajax({
-                    type: 'POST',
-                    url: ip_address + "Users/Login",
-                    data: {
-                        user: $scope.user
-                    },
+                    type: 'GET',
+                    url: ip_address + "Users/Login?userName=" + $scope.user.User_name + "&&password=" + $scope.user.User_pass + "&&isAdmin=false",
                     cache: false,
                     success: function (result) {
                         if (result.users) {

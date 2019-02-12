@@ -74,20 +74,16 @@
                     window.location.href = "page-logUser.html";
             }
             $scope.Login = function () {
-                $scope.user.Is_admin = true;
+
                 $.ajax({
-                    type: 'POST',
-                    url: ip_address + "Users/Login",
-                    data: {
-                        user: $scope.user
-                    },
+                    type: 'GET',
+                    url: ip_address + "Users/Login?userName=" + $scope.user.User_name + "&&password=" + $scope.user.User_pass + "&&isAdmin=true",
                     cache: false,
                     success: function (result) {
                         if (result.users) {
                             $window.sessionStorage.setItem("userId", result.users.Id);
                             $window.sessionStorage.setItem("userName", result.users.User_name);
-                            $window.sessionStorage.setItem("isAdmin", true);
-                            window.location.href = "page-Admin.html";
+                            window.location.href = "page-User.html";
                         } else
                             alert("User name or Password incorrect");
                     },
