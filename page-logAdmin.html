@@ -83,7 +83,8 @@
                         if (result.users) {
                             $window.sessionStorage.setItem("userId", result.users.Id);
                             $window.sessionStorage.setItem("userName", result.users.User_name);
-                            window.location.href = "page-User.html";
+                            $window.sessionStorage.setItem("isAdmin", true);
+                            window.location.href = "page-Admin.html";
                         } else
                             alert("User name or Password incorrect");
                     },

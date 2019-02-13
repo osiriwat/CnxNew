@@ -9,6 +9,87 @@
     <script src="js/jquery-1.11.3.min.js"></script>
     <script src="js/jquery.mobile-1.4.5.min.js"></script>
     <script src="config.js"></script>
+    <script type="text/javascript" src="cordova.js"></script>
+    <script type="text/javascript" charset="utf-8">
+        var pictureSource; // picture source
+        var destinationType; // sets the format of returned value
+
+        // Wait for device API libraries to load
+        //
+        document.addEventListener("deviceready", onDeviceReady, false);
+
+        // device APIs are available
+        //
+        function onDeviceReady() {
+            pictureSource = navigator.camera.PictureSourceType;
+            destinationType = navigator.camera.DestinationType;
+        }
+
+        function capturePhoto() {
+            // Take picture using device camera and retrieve image as base64-encoded string
+            navigator.camera.getPicture(uploadPhoto, onFail, {
+                quality: 50,
+                destinationType: navigator.camera.DestinationType.FILE_URI
+            });
+        }
+
+        function capturePhotoEdit() {
+            // Take picture using device camera, allow edit, and retrieve image as base64-encoded string
+            navigator.camera.getPicture(uploadPhoto, onFail, {
+                quality: 20,
+                allowEdit: true,
+                destinationType: navigator.camera.DestinationType.FILE_URI
+            });
+        }
+
+        function getPhoto(source) {
+            // Retrieve image file location from specified source
+            navigator.camera.getPicture(uploadPhoto, onFail, {
+                quality: 50,
+                destinationType: navigator.camera.DestinationType.FILE_URI,
+                sourceType: source
+            });
+        }
+
+        function uploadPhoto(imageURI) {
+            var smallImage = document.getElementById('smallImage');
+            smallImage.style.display = 'block';
+            smallImage.src = imageURI;
+
+            var fileName = document.getElementById('productImage').value;
+            if (fileName.indexOf(".jpg") >= 0)
+                imgFileName = fileName;
+            else
+                imgFileName = fileName + ".jpg";
+
+            document.getElementById('productImage').value = imgFileName;
+
+            var options = new FileUploadOptions();
+            options.fileKey = "file";
+            options.fileName = imgFileName;
+            options.mimeType = "image/jpeg";
+
+            var params = new Object();
+            params.value1 = "test";
+            params.value2 = "param";
+
+            options.params = params;
+            options.chunkedMode = false;
+
+            var ft = new FileTransfer();
+            ft.upload(imageURI, ip_address + "Users/UploadFile",
+                function (result) {
+                    console.log(JSON.stringify(result));
+                },
+                function (error) {
+                    console.log(JSON.stringify(error));
+                }, options);
+        }
+
+        function onFail(message) {
+            alert('Failed because: ' + message);
+        }
+    </script>
 </head>
 <body>
     <div data-role="page" ng-app="myApp" ng-controller="myCtrl">
@@ -21,13 +102,13 @@
             <div class="ui-grid-a">
                 <div wight=100%>
                     <div class="ui-block-a-30%" style="text-align:center;">
-                        <a class="ui-corner-all">
-                            <img src="img/1.jpg" width="100px" height="100px">
-                        </a>
+                        <a href="#"><img src=" " width="140px" height="150px" border="3" id="smallImage" border-color="#000000"></a>
                         <br>
-                        <div text="text-align:center;"><a href="#">แก้ไขรูปภาพ</a></div>
+                        <input type="button" onclick="capturePhotoEdit();" data-inline="true" data-icon="camera"
+                               data-iconpos="notext" value="Icon only">
                     </div>
                     <form>
+                        <input type="hidden" name="text-12" id="productImage">
                         <div class="ui-field-contain">
                             <label for="text-12">ชื่อ-สกุล:</label>
                             <input type="text" name="text-12" id="text-12" ng-model="user.User_name" value="">
@@ -148,6 +229,13 @@
                         if (response.data != "null") {
                             $scope.user = response.data.users;
 
+                            if (!$scope.user.Image)
+                                document.getElementById('productImage').value = $scope.user.Id;
+                            else
+                                document.getElementById('productImage').value = $scope.user.Image;
+
+                            $('#smallImage').attr('src', ip_address + 'UploadedFiles/UserImage/' + $scope.user.Image);
+
                             var getProvinces = $http({
                                 method: "GET",
                                 url: ip_address + 'Users/GetAllProvince',
@@ -225,6 +313,7 @@
                     $scope.user.contact.PROVINCE_ID = $("#province").val();
                     $scope.user.contact.AMPHUR_ID = $("#amphur").val();
                     $scope.user.contact.DISTRICT_ID = $("#district").val();
+                    $scope.user.Image = document.getElementById('productImage').value;
 
                     $.ajax({
                         type: 'POST',
