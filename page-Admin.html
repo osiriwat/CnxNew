@@ -41,7 +41,7 @@
                     <li><a href="#" ng-click="addKeyword()"  class="ui-btn">เพิ่ม Keywords</a></li>
                 </ul>
                 <ul>
-                    <li><a href="page-AdminHelp.html" class="ui-btn">ศูนย์ช่วยเหลือ:ตอบคำถาม</a></li>
+                    <li><a href="#" ng-click="help()" class="ui-btn">ศูนย์ช่วยเหลือ:ตอบคำถาม</a></li>
                 </ul>
             </div><!-- /navbar -->
         </div><!-- /navbar -->
@@ -75,6 +75,16 @@
             }
             $scope.addKeyword = function () {
                 window.location.href = "page-insertKeyword.html";
+            }
+            $scope.help = function () {
+                $http.get(ip_address + 'Helps/CountLasted').then(function (response) {
+                    $scope.count = response.data.results;
+                    if ($scope.count > 0)
+                        window.location.href = "page-AdminHelp.html";
+                    else
+                        alert("ยังไม่พบข้อมูลคำถาม");
+                })
+               
             }
             $scope.Logout = function () {
 

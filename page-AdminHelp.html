@@ -1,49 +1,105 @@
-html lang="en">
+﻿<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>CnxCenterpoint</title>
-    <link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css" />
-    <script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
-    <script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
-
+    <script src="js/angular.min.js"></script>
+    <link rel="stylesheet" href="css/jquery.mobile-1.4.5.min.css">
+    <script src="js/jquery-1.11.3.min.js"></script>
+    <script src="js/jquery.mobile-1.4.5.min.js"></script>
+    <script src="config.js"></script>
 </head>
 <body>
-    
-        <div data-role="page">
-            <div data-role="header">
-                <a href="index.html" style="margin-top: 5px" class="ui-btn-left ui-btn ui-btn-inline ui-mini ui-corner-all ui-btn-icon-left ui-icon-carat-l">Back</a>
-                <p style="text-align:center;">ช่วยเหลือ</p>
-            </div>
-                
+
+    <div data-role="page" ng-app="myApp" ng-controller="myCtrl">
+        <div data-role="header">
+            <a href="#" ng-click="back()" style="margin-top: 5px" class="ui-btn-left ui-btn ui-btn-inline ui-mini ui-corner-all ui-btn-icon-left ui-icon-carat-l">Back</a>
+            <p style="text-align:center;">ช่วยเหลือ</p>
+        </div>
+
         <div data-role="content">
             <div data-role="collapsibleset" data-theme="a" data-content-theme="a">
-                <h3 class="ui-bar ui-bar-a ui-corner-all">Titleคำถาม</h3>
+                <h3 class="ui-bar ui-bar-a ui-corner-all">คำถาม</h3>
                 <div class="ui-body ui-body-a ui-corner-all">
-                    <p>ตัวอย่างคำถาม: Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse accumsan blandit fermentum. Pellentesque cursus mauris purus, auctor commodo mi ullamcorper nec. Donec semper mattis eros, nec condimentum ante sollicitudin quis. Etiam orci sem, porttitor ut tellus nec, blandit posuere urna. Proin a arcu non lacus pretium faucibus. Aliquam sed est porttitor, ullamcorper urna nec, vehicula lorem. Cras porttitor est lorem, non venenatis diam convallis congue.</p>
+                    <p>{{help.Help_Question}}</p>
                 </div>
                 <form>
                     <label for="textarea-1">ตอบคำถาม:</label>
-                    <textarea name="textarea-1" id="textarea-1"></textarea>
+                    <textarea name="textarea-1" id="answer" ng-model="help.Help_Answer"></textarea>
                 </form>
                 <form>
-                    <input type="button" data-mini="true" value="ส่ง">
+                    <input type="button" ng-click="Save()" data-mini="true" value="ส่ง">
                 </form>
             </div>
-        </div>           
-    
+        </div>
+
         <div data-role="footer" data-position="fixed">
             <div data-role="navbar">
                 <ul>
                     <li><a href="index.html" data-icon="home" data-ajax="false">หน้าแรก</a></li>
                     <li><a href="https://thai.cnxcenterpoint.com/" data-icon="eye" data-ajax="false">ชมเว็บไชต์</a></li>
-                    <li><a href="#" data-icon="info" data-ajax="false" >ช่วยเหลือ</a></li>
+                    <li><a href="#" data-icon="info" data-ajax="false">ช่วยเหลือ</a></li>
                     <li><a href="page-Admin.html" data-icon="user" data-ajax="false" class="ui-btn-active">บัญชีของฉัน</a></li>
                 </ul>
             </div>
         </div><!-- /footer -->
     </div><!-- /page popup -->
-    
-    </body>
+    <script>
+        var app = angular.module('myApp', []);
+        app.controller('myCtrl', function ($scope, $http, $window) {
+            $(document).ready(function () {
+                var getProductGroups = $http({
+                    method: "GET",
+                    url: ip_address + 'Helps/GetLasted',
+                    dataType: 'json',
+                    headers: {
+                        "Content-Type": "application/json"
+                    }
+                }).then(function successCallback(response) {
+                    if (response.data != "null") {
+                        $scope.help = response.data.results;
+
+                    }
+                }, function errorCallback(response) {
+                    alert("Error");
+                });
+
+            });
+            $scope.back = function () {
+                window.location.href = "page-Admin.html";
+            }
+            $scope.Save = function () {
+
+                if (!$scope.help.Help_Answer) {
+                    alert("กรุณากรอกข้อมูล คำตอบ");
+                    return;
+                }
+
+                $.ajax({
+                    type: 'POST',
+                    url: ip_address + "Helps/Update",
+                    data: {
+                        help: $scope.help
+                    },
+                    cache: false,
+                    success: function (result) {
+                        if (result.exception) {
+                            alert(result.exception.Message);
+                        } else {
+                            alert("Save Success");
+                            window.location.href = "page-Admin.html";
+                        }
+                    },
+                    error: function (XMLHttpRequest, textStatus, errorThrown) {
+                        alert("Error");
+                        //window.location.href = "page-User.html";
+                    }
+                });
+            }
+
+        });
+    </script>
+</body>
 </html>
+

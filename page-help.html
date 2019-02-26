@@ -1,78 +1,125 @@
-<html lang="en">
+﻿<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>CnxCenterpoint</title>
-    <link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css" />
-    <script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
-    <script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
-
+    <script src="js/angular.min.js"></script>
+    <link rel="stylesheet" href="css/jquery.mobile-1.4.5.min.css">
+    <link rel="stylesheet" href="css/listview-grid.css">
+    <script src="js/jquery-1.11.3.min.js"></script>
+    <script src="js/jquery.mobile-1.4.5.min.js"></script>
+    <script src="config.js"></script>
 </head>
 <body>
-    
-    <div data-role="page">
+
+    <div data-role="page" id="demo-page" class="my-page" ng-app="myApp" ng-controller="myCtrl">
         <div data-role="header">
-            <a href="index.html" style="margin-top: 5px" class="ui-btn-left ui-btn ui-btn-inline ui-mini ui-corner-all ui-btn-icon-left ui-icon-carat-l">Back</a>
             <p style="text-align:center;">ช่วยเหลือ</p>
         </div>
-            
-    <div data-role="content">
-        <div class="ui-field-right">
+
+        <div data-role="content">
+            <div class="ui-field-right">
                 <label for="textarea">ศูนย์ความช่วยเหลือ:</label>
-                <textarea cols="40" rows="8" name="textarea" id="textarea"></textarea>
+                <textarea cols="40" rows="8" name="textarea" ng-model="help.Help_Question" id="textarea"></textarea>
                 <form>
-                    <input type="button" data-mini="true" value="ส่ง">
+                    <input type="button" ng-click="send()" data-mini="true" value="ส่ง">
                 </form>
+            </div>
+            <p>คำถามยอดนิยม:</p>
+            <div data-role="collapsibleset" data-theme="a" id="dataRow2" data-content-theme="a">
+                <div data-role="collapsible" ng-show="helps[0].Id">
+                    <h3>{{helps[0].Help_Question}}</h3>
+                    <p>{{helps[0].Help_Answer}}</p>
+                </div>
+                <div data-role="collapsible" ng-show="helps[1].Id">
+                    <h3>{{helps[1].Help_Question}}</h3>
+                    <p>{{helps[1].Help_Answer}}</p>
+                </div>
+                <div data-role="collapsible" ng-show="helps[2].Id">
+                    <h3>{{helps[2].Help_Question}}</h3>
+                    <p>{{helps[2].Help_Answer}}</p>
+                </div>
+                <div data-role="collapsible" ng-show="helps[3].Id">
+                    <h3>{{helps[3].Help_Question}}</h3>
+                    <p>{{helps[3].Help_Answer}}</p>
+                </div>
+                <div data-role="collapsible" ng-show="helps[4].Id">
+                    <h3>{{helps[4].Help_Question}}</h3>
+                    <p>{{helps[4].Help_Answer}}</p>
+                </div>
+                <div data-role="collapsible" ng-show="helps[5].Id">
+                    <h3>{{helps[5].Help_Question}}</h3>
+                    <p>{{helps[5].Help_Answer}}</p>
+                </div>
+                <div data-role="collapsible" ng-show="helps[6].Id">
+                    <h3>{{helps[6].Help_Question}}</h3>
+                    <p>{{helps[6].Help_Answer}}</p>
+                </div>
+                <div data-role="collapsible" ng-show="helps[7].Id">
+                    <h3>{{helps[7].Help_Question}}</h3>
+                    <p>{{helps[7].Help_Answer}}</p>
+                </div>
+                <div data-role="collapsible" ng-show="helps[8].Id">
+                    <h3>{{helps[8].Help_Question}}</h3>
+                    <p>{{helps[8].Help_Answer}}</p>
+                </div>
+                <div data-role="collapsible" ng-show="helps[9].Id">
+                    <h3>{{helps[9].Help_Question}}</h3>
+                    <p>{{helps[9].Help_Answer}}</p>
+                </div>
+            </div>
+
+            <p>ติดต่อเรา:</p>
+            <p>
+                พัฒนาโดย องค์การบริหารส่วนจังหวัดเชียงใหม่ ถ.โชตนา ต.ช้างเผือก อ.เมือง จ.เชียงใหม่
+                ร่วมกับสถานบริการการเรียนรู้ คณะบริหารธุรกิจ มหาวิทยาลัยแม่โจ้ เชียงใหม่
+            </p>
+            <img src="img/2.jpg" alt="Paris, France" style="width:100%">
+            <p>Facebook Page:</p>
+            <a href="https://www.facebook.com/paotraining/"><button class="ui-btn ui-shadow ui-corner-all">PAO Training Center</button></a>
         </div>
-        <p>คำถามยอดนิยม:</p>
-        <div data-role="collapsibleset" data-theme="a" data-content-theme="a">
-            <div data-role="collapsible">
-                <h3>คำถามที่1</h3>
-                <p>คำตอบที่1</p>
-            </div>
-            <div data-role="collapsible">
-                <h3>คำถามที่2</h3>
-                <p>คำตอบที่2</p>
-            </div>
-            <div data-role="collapsible">
-                <h3>คำถามที่3</h3>
-                <p>คำตอบที่3</p>
-            </div>
-            <div data-role="collapsible">
-                <h3>คำถามที่4</h3>
-                <p>คำตอบที่4</p>
-            </div>
-            <div data-role="collapsible">
-                <h3>คำถามที่5</h3>
-                <p>คำตอบที่5</p>
-            </div>
-            <div data-role="collapsible">
-                <h3>คำถามที่6</h3>
-                <p>คำตอบที่6</p>
-            </div>
-        </div>
-        <p>ติดต่อเรา:</p>
-        <p>พัฒนาโดย องค์การบริหารส่วนจังหวัดเชียงใหม่ ถ.โชตนา ต.ช้างเผือก อ.เมือง จ.เชียงใหม่
-        ร่วมกับสถานบริการการเรียนรู้ คณะบริหารธุรกิจ มหาวิทยาลัยแม่โจ้ เชียงใหม่</p>
-        <img src="img/2.jpg" alt="Paris, France" style="width:100%">
-        <p>Facebook Page:</p>
-        <a href="https://www.facebook.com/paotraining/"><button class="ui-btn ui-shadow ui-corner-all">PAO Training Center</button></a>
 
-    </div>
-
-
-    <div data-role="footer" data-position="fixed">
-        <div data-role="navbar">
-            <ul>
-                <li><a href="index.html" data-icon="home" data-ajax="false">หน้าแรก</a></li>
-                <li><a href="https://thai.cnxcenterpoint.com/" data-icon="eye" data-ajax="false">ชมเว็บไชต์</a></li>
-                <li><a href="#" data-icon="info" data-ajax="false" class="ui-btn-active">ช่วยเหลือ</a></li>
-                <li><a href="page-logUser.html" data-icon="user" data-ajax="false">บัญชีของฉัน</a></li>
-            </ul>
-        </div>
-    </div><!-- /footer -->
-</div><!-- /page popup -->
-
+        <div data-role="footer" data-position="fixed">
+            <div data-role="navbar">
+                <ul>
+                    <li><a href="index.html" data-icon="home" data-ajax="false">หน้าแรก</a></li>
+                    <li><a href="https://thai.cnxcenterpoint.com/" data-icon="eye" data-ajax="false">ชมเว็บไชต์</a></li>
+                    <li><a href="#" data-icon="info" data-ajax="false" class="ui-btn-active">ช่วยเหลือ</a></li>
+                    <li><a href="page-logUser.html" data-icon="user" data-ajax="false">บัญชีของฉัน</a></li>
+                </ul>
+            </div>
+        </div><!-- /footer -->
+    </div><!-- /page popup -->
+    <script>
+        var app = angular.module('myApp', []);
+        app.controller('myCtrl', function ($scope, $http, $window) {
+            $(document).ready(function () {
+                $http.get(ip_address + 'Helps/GetTopHelp').then(function (response) {
+                    $scope.helps = response.data.results;
+                })
+                $scope.send = function () {
+                    $.ajax({
+                        type: 'POST',
+                        url: ip_address + "Helps/Create",
+                        data: {
+                            help: $scope.help
+                        },
+                        cache: false,
+                        success: function (result) {
+                            if (result.exception) {
+                                alert(result.exception.Message);
+                            } else {
+                                alert("Save Success");
+                            }
+                        },
+                        error: function (XMLHttpRequest, textStatus, errorThrown) {
+                            alert("Error");
+                        }
+                    });
+                }
+            })
+        })
+    </script>
 </body>
 </html>
